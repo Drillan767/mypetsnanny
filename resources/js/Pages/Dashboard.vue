@@ -1,5 +1,5 @@
 <template>
-    <app-layout>
+    <admin-layout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 Dashboard
@@ -13,17 +13,19 @@
                 </div>
             </div>
         </div>
-    </app-layout>
+    </admin-layout>
 </template>
 
 <script>
-    import AppLayout from './../Layouts/AppLayout'
+    import AdminLayout from './../Layouts/AdminLayout'
     import Welcome from './../Jetstream/Welcome'
+    import AlertBag from "../Jetstream/AlertBag";
 
     export default {
         components: {
-            AppLayout,
+            AdminLayout,
             Welcome,
+            AlertBag,
         },
     }
 </script>

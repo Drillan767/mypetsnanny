@@ -1,11 +1,11 @@
 <template>
     <jet-action-section>
         <template #title>
-            Delete Account
+            Supprimer votre compte
         </template>
 
         <template #description>
-            Permanently delete your account.
+            Supprimer votre compte de façon permanente.
         </template>
 
         <template #content>
@@ -20,7 +20,7 @@
             </div>
 
             <!-- Delete Account Confirmation Modal -->
-            <jet-dialog-modal :show="confirmingUserDeletion" @close="confirmingUserDeletion = false">
+            <jet-dialog-modal :show="createCategory" @close="createCategory = false">
                 <template #title>
                     Delete Account
                 </template>
@@ -39,13 +39,13 @@
                 </template>
 
                 <template #footer>
-                    <jet-secondary-button @click.native="confirmingUserDeletion = false">
-                        Nevermind
+                    <jet-secondary-button @click.native="createCategory = false">
+                        Annuler
                     </jet-secondary-button>
 
-                    <jet-danger-button class="ml-2" @click.native="deleteUser" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                    <jet-button class="ml-2" @click.native="deleteUser" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                         Delete Account
-                    </jet-danger-button>
+                    </jet-button>
                 </template>
             </jet-dialog-modal>
         </template>
@@ -74,7 +74,7 @@
 
         data() {
             return {
-                confirmingUserDeletion: false,
+                createCategory: false,
                 deleting: false,
 
                 form: this.$inertia.form({

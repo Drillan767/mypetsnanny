@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\{CategoryController, TestController};
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,3 +21,10 @@ Route::get('/', function () {
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return Inertia\Inertia::render('Dashboard');
 })->name('dashboard');
+
+Route::middleware(['auth:sanctum', 'sanctum.role:someshittest'])->get('test-page', [TestController::class, 'testPage'])->name('test-page');
+
+// Routes for the administrator
+Route::middleware(['auth:sanctum', 'sanctum.role:administrator'])->prefix('/admin')->group(function() {
+    Route::get('/categories', [CategoryController::class, 'all'])->name('categories.all');
+});

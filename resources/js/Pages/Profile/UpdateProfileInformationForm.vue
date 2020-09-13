@@ -1,11 +1,11 @@
 <template>
     <jet-form-section @submitted="updateProfileInformation">
         <template #title>
-            Profile Information
+            Information du profil
         </template>
 
         <template #description>
-            Update your account's profile information and email address.
+            Mettez à jour vos informations personnelles ainsi que votre adresse e-mail.
         </template>
 
         <template #form>
@@ -31,17 +31,24 @@
                 </div>
 
                 <jet-secondary-button class="mt-2" type="button" @click.native.prevent="selectNewPhoto">
-                    Select A New Photo
+                    Sélectionnez une nouvelle photo
                 </jet-secondary-button>
 
                 <jet-input-error :message="form.error('photo')" class="mt-2" />
             </div>
 
-            <!-- Name -->
+            <!-- First name -->
             <div class="col-span-6 sm:col-span-4">
-                <jet-label for="name" value="Name" />
-                <jet-input id="name" type="text" class="mt-1 block w-full" v-model="form.name" autocomplete="name" />
-                <jet-input-error :message="form.error('name')" class="mt-2" />
+                <jet-label for="first_name" value="Prénom" />
+                <jet-input id="first_name" type="text" class="mt-1 block w-full" v-model="form.first_name" autocomplete="first_name" />
+                <jet-input-error :message="form.error('first_name')" class="mt-2" />
+            </div>
+
+            <!-- Last name -->
+            <div class="col-span-6 sm:col-span-4">
+                <jet-label for="last_name" value="Nom de famille" />
+                <jet-input id="last_name" type="text" class="mt-1 block w-full" v-model="form.last_name" autocomplete="last_name" />
+                <jet-input-error :message="form.error('last_name')" class="mt-2" />
             </div>
 
             <!-- Email -->
@@ -84,13 +91,14 @@
             JetSecondaryButton,
         },
 
-        props: ['name', 'email'],
+        props: ['first_name', 'last_name', 'email'],
 
         data() {
             return {
                 form: this.$inertia.form({
                     '_method': 'PUT',
-                    name: this.name,
+                    first_name: this.first_name,
+                    last_name: this.last_name,
                     email: this.email,
                     photo: null,
                 }, {

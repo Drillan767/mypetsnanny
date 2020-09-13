@@ -11,11 +11,19 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens;
     use HasFactory;
     use HasProfilePhoto;
     use Notifiable;
-    use TwoFactorAuthenticatable;
+
+    /**
+     * Get the default profile photo URL if no profile photo has been uploaded.
+     *
+     * @return string
+     */
+    protected function defaultProfilePhotoUrl()
+    {
+        return 'https://ui-avatars.com/api/?name=' . urlencode($this->first_name). '+' . urlencode($this->last_name) .'&color=7F9CF5&background=EBF4FF';
+    }
 
     /**
      * The attributes that are mass assignable.
@@ -23,7 +31,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name',
+        'first_name',
+        'last_name',
         'email',
         'password',
     ];
@@ -38,6 +47,16 @@ class User extends Authenticatable
         'remember_token',
         'two_factor_recovery_codes',
         'two_factor_secret',
+        'role',
+        'address_1',
+        'address_2',
+        'cp',
+        'city',
+        'use_same_address',
+        'billing_address_1',
+        'billing_address_2',
+        'billing_cp',
+        'billing_city',
     ];
 
     /**

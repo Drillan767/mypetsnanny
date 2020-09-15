@@ -46,7 +46,7 @@
                                         Prestations
                                     </div>
 
-                                    <jet-dropdown-link href="/user/profile">
+                                    <jet-dropdown-link href="/admin/categories">
                                         Catégories
                                     </jet-dropdown-link>
 

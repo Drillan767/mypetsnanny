@@ -44,7 +44,7 @@
                                 <td class="px-6 py-4 whitespace-no-wrap">
                                     <div class="flex items-center">
                                         <div class="flex-shrink-0 h-10 w-10">
-                                            <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=4&amp;w=256&amp;h=256&amp;q=60" alt="">
+                                            <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/icon-1494790108377-be9c29b29330?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=4&amp;w=256&amp;h=256&amp;q=60" alt="">
                                         </div>
                                         <div class="ml-4">
                                             <div class="text-sm leading-5 font-medium text-gray-900">
@@ -86,12 +86,7 @@
             </template>
 
             <template #content>
-                Are you sure you want to delete your account? Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.
-                <!--title: '',
-                description: '',
-                color: '',
-                icon: '',
-                whole_day: false,-->
+
                 <div class="mt-4">
                     <jet-input type="text" class="mt-1 block w-3/4" placeholder="Titre"
                                ref="title"
@@ -99,6 +94,45 @@
                     />
 
                     <jet-input-error :message="newCategory.error('title')" class="mt-2" />
+                </div>
+                <div class="mt-4">
+                    <jet-textarea :placeholder="'description'" v-model="newCategory.description"></jet-textarea>
+
+                    <jet-input-error :message="newCategory.error('title')" class="mt-2" />
+                </div>
+
+                <div class="mt-4 col-span-6 sm:col-span-4">
+                    <!-- Category Icon File Input -->
+                    <input type="file" class="hidden"
+                           ref="icon"
+                           @change="updateIconPreview">
+
+                    <jet-label for="icon" value="Image" />
+
+                    <!-- New Profile Icon Preview -->
+                    <div class="mt-2" v-show="iconPreview">
+                        <span class="block rounded-full w-20 h-20"
+                              :style="'background-size: cover; background-repeat: no-repeat; background-position: center; background-image: url(\'' + iconPreview + '\');'">
+                        </span>
+                    </div>
+
+                    <jet-secondary-button class="mt-2" type="button" @click.native.prevent="selectNewIcon">
+                        Sélectionnez une nouvelle image
+                    </jet-secondary-button>
+
+                    <jet-input-error :message="newCategory.error('icon')" class="mt-2" />
+                </div>
+
+                <div class="mt-4">
+                    <jet-label for="color" value="Couleur" />
+                    <slider id="color" v-model="color" />
+                </div>
+
+                <div class="mt-4">
+                    <label class="inline-flex items-center mt-3">
+                        <input type="checkbox" class="form-checkbox h-5 w-5 text-blue-600" v-model="newCategory.whole_day" :checked="newCategory.whole_day">
+                        <span class="ml-2 text-gray-700">La prestation dure-t-elle toute la journée ?</span>
+                    </label>
                 </div>
             </template>
 
@@ -108,7 +142,7 @@
                 </jet-secondary-button>
 
                 <jet-button class="ml-2" @click.native="submitCategory" :class="{ 'opacity-25': newCategory.processing }" :disabled="newCategory.processing">
-                    Delete Account
+                    Enregistrer
                 </jet-button>
             </template>
         </jet-dialog-modal>
@@ -117,31 +151,38 @@
 </template>
 
 <script>
+import Slider from 'vue-color/src/components/Slider.vue';
 import AdminLayout from "../../Layouts/AdminLayout";
 import SlideOver from "../../Jetstream/SlideOver";
 import JetButton from './../../Jetstream/Button';
+import JetLabel from './../../Jetstream/Label';
 import JetDialogModal from './../../Jetstream/DialogModal';
-import JetSecondaryButton from './../../Jetstream/SecondaryButton'
-import JetInput from './../../Jetstream/Input'
-import JetInputError from './../../Jetstream/InputError'
-
+import JetSecondaryButton from './../../Jetstream/SecondaryButton';
+import JetInput from './../../Jetstream/Input';
+import JetTextarea from './../../Jetstream/Textarea';
+import JetInputError from './../../Jetstream/InputError';
 
 export default {
     props: ['categories'],
     components: {
         JetButton,
         JetInput,
+        JetLabel,
+        JetTextarea,
         JetInputError,
         JetDialogModal,
         JetSecondaryButton,
         SlideOver,
-        AdminLayout
+        AdminLayout,
+        'Slider': Slider
     },
 
     data () {
         return {
             slideOpen: false,
             createCategory: false,
+            iconPreview: null,
+            color: '',
             newCategory: this.$inertia.form({
                 '_method': 'POST',
                 title: '',
@@ -150,17 +191,6 @@ export default {
                 icon: '',
                 whole_day: false,
             })
-
-            /*newCategory: this.$inertia.newCategory({
-                '_method': 'POST',
-                title: '',
-                description: '',
-                color: '',
-                icon: '',
-                whole_day: false,
-            }, {
-                bag: 'createCategory'
-            })*/
         }
     },
 
@@ -185,8 +215,24 @@ export default {
             }, 250)
         },
 
+        updateIconPreview() {
+            const reader = new FileReader();
+
+            reader.onload = (e) => {
+                this.iconPreview = e.target.result;
+            };
+
+            reader.readAsDataURL(this.$refs.icon.files[0]);
+        },
+
+        selectNewIcon() {
+            this.$refs.icon.click();
+        },
+
         submitCategory() {
-            this.newCategory.post('/category/add', {
+            this.newCategory.color = this.color.hex;
+            this.newCategory.icon = this.$refs.icon.files[0]
+            this.newCategory.post('/admin/category/add', {
                 preserveScroll: true
             }).then(response => {
                 if (! this.newCategory.hasErrors()) {

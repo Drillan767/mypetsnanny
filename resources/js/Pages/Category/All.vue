@@ -6,7 +6,7 @@
             </h2>
         </template>
 
-        <slide-over :title="'Coucou les enfants'" :is-opened="slideOpen" @close-slide="closeSlide">
+        <slide-over :title="'Coucou les enfants'" :is-opened="slideOpen" :category="editedCategory" @close-slide="closeSlide">
             <template #slide-over>
                 <h1>Bonjour ceci est un contenu de type standard</h1>
             </template>
@@ -25,51 +25,42 @@
                             <thead>
                             <tr>
                                 <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                                    Name
+                                    Image
                                 </th>
                                 <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                                    Title
+                                    Titre
                                 </th>
                                 <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                                    Status
-                                </th>
-                                <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                                    Role
+                                    Durée
                                 </th>
                                 <th class="px-6 py-3 bg-gray-50"></th>
                             </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
-                            <tr>
+                            <tr v-for="(category, key) in categories" :key="key">
                                 <td class="px-6 py-4 whitespace-no-wrap">
                                     <div class="flex items-center">
-                                        <div class="flex-shrink-0 h-10 w-10">
-                                            <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/icon-1494790108377-be9c29b29330?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=4&amp;w=256&amp;h=256&amp;q=60" alt="">
-                                        </div>
-                                        <div class="ml-4">
-                                            <div class="text-sm leading-5 font-medium text-gray-900">
-                                                Jane Cooper
-                                            </div>
-                                            <div class="text-sm leading-5 text-gray-500">
-                                                jane.cooper@example.com
-                                            </div>
+                                        <div class="flex-shrink-0 h-12 w-12 rounded-full border-solid border-4" :style="{ borderColor: category.color }">
+                                            <img class="h-10 w-10 rounded-full" :src="category.icon" alt="">
                                         </div>
                                     </div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-no-wrap">
-                                    <div class="text-sm leading-5 text-gray-900">Regional Paradigm Technician</div>
-                                    <div class="text-sm leading-5 text-gray-500">Optimization</div>
+                                    <div class="text-sm leading-5 text-gray-900">{{ category.title }}</div>
+                                    <div class="text-sm leading-5 text-gray-500">
+                                        {{ category.description.length > 75 ? category.description.substring(0, 75) + '...' : category.description }}
+                                    </div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-no-wrap">
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                      Active
+                                    <span v-if="category.whole_day" class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                      Toute la journée
+                                    </span>
+                                    <span v-else class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
+                                        Moins d'une journée
                                     </span>
                                 </td>
-                                <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
-                                    Admin
-                                </td>
                                 <td class="px-6 py-4 whitespace-no-wrap text-right text-sm leading-5 font-medium">
-                                    <span @click.prevent="edit" class="cursor-pointer text-indigo-600 hover:text-indigo-900">Edit</span>
+                                    <span @click.prevent="edit(category)" class="cursor-pointer text-indigo-600 hover:text-indigo-900">Modifier</span>
                                 </td>
                             </tr>
 
@@ -183,6 +174,7 @@ export default {
             createCategory: false,
             iconPreview: null,
             color: '',
+            editedCategory: null,
             newCategory: this.$inertia.form({
                 '_method': 'POST',
                 title: '',
@@ -190,17 +182,19 @@ export default {
                 color: '',
                 icon: '',
                 whole_day: false,
-            })
+            }),
         }
     },
 
     methods: {
-        edit () {
+        edit (category) {
             this.slideOpen = !this.slideOpen;
+            this.editedCategory = category;
         },
 
         closeSlide (e) {
             this.slideOpen = e;
+            this.editedCategory = null;
         },
 
         displayCategoryModal () {
@@ -234,7 +228,9 @@ export default {
             this.newCategory.icon = this.$refs.icon.files[0]
             this.newCategory.post('/admin/category/add', {
                 preserveScroll: true
-            }).then(response => {
+            },
+            { headers: { 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content') }}
+            ).then(() => {
                 if (! this.newCategory.hasErrors()) {
                     this.createCategory = false;
                 }

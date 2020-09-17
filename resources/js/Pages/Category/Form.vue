@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="mt-4">
-            <jet-input type="text" class="mt-1 block w-3/4" placeholder="Titre"
+            <jet-input type="text" class="mt-1 block w-full" placeholder="Titre"
                ref="title"
                v-model="category.title"
                autofocus
@@ -21,7 +21,15 @@
 
             <jet-label for="icon" value="Image" />
 
-            <!-- New Profile Icon Preview -->
+            <!-- Current Icon displaying -->
+
+            <div class="mt-2" v-show="! iconPreview">
+                <span class="block rounded-full w-20 h-20"
+                      :style="'background-size: cover; background-repeat: no-repeat; background-position: center; background-image: url(\'' + category.icon + '\');'">
+                </span>
+            </div>
+
+            <!-- New Icon Preview -->
             <div class="mt-2" v-show="iconPreview">
                 <span class="block rounded-full w-20 h-20"
                     :style="'background-size: cover; background-repeat: no-repeat; background-position: center; background-image: url(\'' + iconPreview + '\');'">
@@ -37,7 +45,7 @@
 
         <div class="mt-4">
             <jet-label for="color" value="Couleur" />
-            <slider id="color" v-model="color" @change="colorChange" />
+            <slider id="color" v-model="color" />
         </div>
 
         <div class="mt-4">
@@ -45,6 +53,16 @@
                 <input type="checkbox" class="form-checkbox h-5 w-5 text-blue-600" v-model="category.whole_day" :checked="category.whole_day">
                 <span class="ml-2 text-gray-700">La prestation dure-t-elle toute la journée ?</span>
             </label>
+        </div>
+
+        <div v-if="editing" class="mt-4 flex">
+            <jet-secondary-button @click.native="close" class="flex-grow justify-center">
+                Annuler
+            </jet-secondary-button>
+
+            <jet-button class="ml-2 flex-grow justify-center" @click.native="updateCategory" :class="{ 'opacity-25': category.processing }" :disabled="category.processing">
+                Enregistrer
+            </jet-button>
         </div>
     </div>
 </template>
@@ -68,12 +86,18 @@ export default {
         'Slider': Slider
     },
 
-    props: ['category'],
+    props: ['category', 'editing'],
 
     data () {
         return {
             iconPreview: null,
             color: '',
+        }
+    },
+
+    mounted() {
+        if (this.editing) {
+            this.color = this.category.color;
         }
     },
 
@@ -90,10 +114,28 @@ export default {
             this.$refs.icon.click();
         },
 
-        colorChange(e) {
-            console.log('changed');
+        updateCategory () {
+            this.$emit('submit-edit')
+        },
+
+        close() {
+            this.$emit('close-slide');
+        }
+    },
+
+    watch: {
+        category: function (newVal, oldVal) {
+            if (this.editing) {
+                this.color = this.category.color;
+            }
         }
     }
 
 }
 </script>
+
+<style>
+    .vc-slider#color {
+        width: 100%;
+    }
+</style>

@@ -27,10 +27,6 @@
             Modal,
         },
 
-        mounted() {
-            this.$on('test', (e) => console.log(e))
-        },
-
         props: {
             show: {
                 default: false

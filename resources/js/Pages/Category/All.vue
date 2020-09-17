@@ -6,11 +6,7 @@
             </h2>
         </template>
 
-        <slide-over :title="'Coucou les enfants'" :is-opened="slideOpen" @close-slide="closeSlide">
-            <template #slide-over>
-<!--                <CategoryForm :category="editedCategory" />-->
-            </template>
-        </slide-over>
+        <EditForm :is-opened="slideOpen" :category="category" @close-edit="closeEdit" />
 
         <div class="flex flex-col">
             <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -61,6 +57,9 @@
                                 </td>
                                 <td class="px-6 py-4 whitespace-no-wrap text-right text-sm leading-5 font-medium">
                                     <span @click.prevent="edit(category)" class="cursor-pointer text-indigo-600 hover:text-indigo-900">Modifier</span>
+                                    |
+                                    <span class="cursor-pointer text-red-600 hover:text-red-900">Supprimer</span>
+
                                 </td>
                             </tr>
 
@@ -71,7 +70,7 @@
             </div>
         </div>
 
-        <CreateForm :show="createCategory" />
+        <CreateForm :show="createCategory" @close="closeCreate" />
 
     </admin-layout>
 </template>
@@ -81,11 +80,13 @@ import AdminLayout from "../../Layouts/AdminLayout";
 import SlideOver from "../../Jetstream/SlideOver";
 import JetButton from './../../Jetstream/Button';
 import CreateForm from './CreateForm';
+import EditForm from "./EditForm";
 
 export default {
     props: ['categories'],
     components: {
         CreateForm,
+        EditForm,
         JetButton,
         SlideOver,
         AdminLayout,
@@ -93,21 +94,25 @@ export default {
 
     data () {
         return {
+            category: null,
             slideOpen: false,
             createCategory: false,
-            editedCategory: null,
+            editedCategory: false,
         }
     },
 
     methods: {
         edit (category) {
             this.slideOpen = !this.slideOpen;
-            this.editedCategory = category;
+            this.category = category;
         },
 
-        closeSlide (e) {
-            this.slideOpen = e;
-            this.editedCategory = null;
+        closeCreate () {
+            this.createCategory = false;
+        },
+
+        closeEdit () {
+            this.slideOpen = false;
         },
 
         displayCategoryModal () {

@@ -28,5 +28,6 @@ Route::middleware(['auth:sanctum', 'sanctum.role:administrator'])->prefix('/admi
 
     Route::prefix('/category')->group(function () {
         Route::post('/add', [CategoryController::class, 'store'])->name('category.store');
+        Route::post('/update', [CategoryController::class, 'update'])->name('category.update');
     });
 });

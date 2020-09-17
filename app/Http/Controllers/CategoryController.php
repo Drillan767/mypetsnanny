@@ -52,5 +52,11 @@ class CategoryController extends Controller
         return Redirect::route('category.all', ['categories' => Category::all()]);
     }
 
+    public function update(CategoryRequest $request)
+    {
+        dd($request);
+//        $category = Category::find()
+    }
+
 
 }

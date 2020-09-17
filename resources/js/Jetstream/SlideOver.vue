@@ -9,7 +9,7 @@
     >
         <div v-show="isOpened" class="fixed inset-0 overflow-hidden">
             <div class="absolute inset-0 overflow-hidden">
-                <div v-show="isOpened" class="absolute inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+                <div v-show="isOpened" class="absolute inset-0 bg-gray-500 bg-opacity-75 transition-opacity" @click.prevent="close"></div>
 
                 <section class="absolute inset-y-0 right-0 pl-10 max-w-full flex">
                     <transition

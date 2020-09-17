@@ -1,15 +1,15 @@
 <template>
-    <jet-dialog-modal :show="show" @close="createCategory = false">
+    <jet-dialog-modal :show="show" @close="close">
         <template #title>
             Nouvelle catégorie
         </template>
 
         <template #content>
-            <CategoryForm ref="categoryForm" :category="category" @icon-changed="iconChanged" />
+            <CategoryForm ref="categoryForm" :category="category" :editing="false" />
         </template>
 
         <template #footer>
-            <jet-secondary-button @click.native="createCategory = false">
+            <jet-secondary-button @click.native="close">
                 Annuler
             </jet-secondary-button>
 
@@ -51,6 +51,11 @@ export default {
     },
 
     methods: {
+
+        close () {
+            this.$emit('close');
+        },
+
         submitCategory() {
             const childForm = this.$refs.categoryForm;
             this.category.icon = childForm.$refs.icon.files[0];
@@ -65,11 +70,6 @@ export default {
                 }
             })
         },
-
-        iconChanged(e) {
-            console.log();
-            this.iconInput = e;
-        }
     }
 }
 </script>

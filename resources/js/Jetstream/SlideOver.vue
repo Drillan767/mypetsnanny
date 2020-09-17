@@ -56,7 +56,7 @@
 </template>
 <script>
 export default {
-    props: ['title', 'isOpened', 'category'],
+    props: ['title', 'isOpened'],
 
     methods: {
         close () {

@@ -6,9 +6,9 @@
             </h2>
         </template>
 
-        <slide-over :title="'Coucou les enfants'" :is-opened="slideOpen" :category="editedCategory" @close-slide="closeSlide">
+        <slide-over :title="'Coucou les enfants'" :is-opened="slideOpen" @close-slide="closeSlide">
             <template #slide-over>
-                <h1>Bonjour ceci est un contenu de type standard</h1>
+<!--                <CategoryForm :category="editedCategory" />-->
             </template>
         </slide-over>
 
@@ -71,118 +71,31 @@
             </div>
         </div>
 
-        <jet-dialog-modal :show="createCategory" @close="createCategory = false">
-            <template #title>
-                Nouvelle catégorie
-            </template>
-
-            <template #content>
-
-                <div class="mt-4">
-                    <jet-input type="text" class="mt-1 block w-3/4" placeholder="Titre"
-                               ref="title"
-                               v-model="newCategory.title"
-                    />
-
-                    <jet-input-error :message="newCategory.error('title')" class="mt-2" />
-                </div>
-                <div class="mt-4">
-                    <jet-textarea :placeholder="'description'" v-model="newCategory.description"></jet-textarea>
-
-                    <jet-input-error :message="newCategory.error('title')" class="mt-2" />
-                </div>
-
-                <div class="mt-4 col-span-6 sm:col-span-4">
-                    <!-- Category Icon File Input -->
-                    <input type="file" class="hidden"
-                           ref="icon"
-                           @change="updateIconPreview">
-
-                    <jet-label for="icon" value="Image" />
-
-                    <!-- New Profile Icon Preview -->
-                    <div class="mt-2" v-show="iconPreview">
-                        <span class="block rounded-full w-20 h-20"
-                              :style="'background-size: cover; background-repeat: no-repeat; background-position: center; background-image: url(\'' + iconPreview + '\');'">
-                        </span>
-                    </div>
-
-                    <jet-secondary-button class="mt-2" type="button" @click.native.prevent="selectNewIcon">
-                        Sélectionnez une nouvelle image
-                    </jet-secondary-button>
-
-                    <jet-input-error :message="newCategory.error('icon')" class="mt-2" />
-                </div>
-
-                <div class="mt-4">
-                    <jet-label for="color" value="Couleur" />
-                    <slider id="color" v-model="color" />
-                </div>
-
-                <div class="mt-4">
-                    <label class="inline-flex items-center mt-3">
-                        <input type="checkbox" class="form-checkbox h-5 w-5 text-blue-600" v-model="newCategory.whole_day" :checked="newCategory.whole_day">
-                        <span class="ml-2 text-gray-700">La prestation dure-t-elle toute la journée ?</span>
-                    </label>
-                </div>
-            </template>
-
-            <template #footer>
-                <jet-secondary-button @click.native="createCategory = false">
-                    Annuler
-                </jet-secondary-button>
-
-                <jet-button class="ml-2" @click.native="submitCategory" :class="{ 'opacity-25': newCategory.processing }" :disabled="newCategory.processing">
-                    Enregistrer
-                </jet-button>
-            </template>
-        </jet-dialog-modal>
+        <CreateForm :show="createCategory" />
 
     </admin-layout>
 </template>
 
 <script>
-import Slider from 'vue-color/src/components/Slider.vue';
 import AdminLayout from "../../Layouts/AdminLayout";
 import SlideOver from "../../Jetstream/SlideOver";
 import JetButton from './../../Jetstream/Button';
-import JetLabel from './../../Jetstream/Label';
-import JetDialogModal from './../../Jetstream/DialogModal';
-import JetSecondaryButton from './../../Jetstream/SecondaryButton';
-import JetInput from './../../Jetstream/Input';
-import JetTextarea from './../../Jetstream/Textarea';
-import JetInputError from './../../Jetstream/InputError';
+import CreateForm from './CreateForm';
 
 export default {
     props: ['categories'],
     components: {
+        CreateForm,
         JetButton,
-        JetInput,
-        JetLabel,
-        JetTextarea,
-        JetInputError,
-        JetDialogModal,
-        JetSecondaryButton,
         SlideOver,
         AdminLayout,
-        'Slider': Slider
     },
 
     data () {
         return {
             slideOpen: false,
             createCategory: false,
-            iconPreview: null,
-            color: '',
             editedCategory: null,
-            newCategory: this.$inertia.form({
-                '_method': 'POST',
-                title: '',
-                description: '',
-                color: '',
-                icon: '',
-                whole_day: false,
-            }),
         }
     },
 
@@ -198,43 +111,7 @@ export default {
         },
 
         displayCategoryModal () {
-            this.newCategory.title = '';
-            this.newCategory.description = '';
-            this.newCategory.color = '';
-            this.newCategory.icon = '';
             this.createCategory = true;
-
-            setTimeout(() => {
-                this.$refs.title.focus()
-            }, 250)
-        },
-
-        updateIconPreview() {
-            const reader = new FileReader();
-
-            reader.onload = (e) => {
-                this.iconPreview = e.target.result;
-            };
-
-            reader.readAsDataURL(this.$refs.icon.files[0]);
-        },
-
-        selectNewIcon() {
-            this.$refs.icon.click();
-        },
-
-        submitCategory() {
-            this.newCategory.color = this.color.hex;
-            this.newCategory.icon = this.$refs.icon.files[0]
-            this.newCategory.post('/admin/category/add', {
-                preserveScroll: true
-            },
-            { headers: { 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content') }}
-            ).then(() => {
-                if (! this.newCategory.hasErrors()) {
-                    this.createCategory = false;
-                }
-            })
         },
     }
 }

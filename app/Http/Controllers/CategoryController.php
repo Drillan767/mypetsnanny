@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
 use App\Services\ImageHandler;
-use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 

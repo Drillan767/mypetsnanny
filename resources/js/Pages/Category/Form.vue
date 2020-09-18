@@ -12,7 +12,7 @@
         <div class="mt-4">
             <jet-textarea :placeholder="'description'" v-model="category.description"></jet-textarea>
 
-            <jet-input-error :message="category.error('title')" class="mt-2" />
+            <jet-input-error :message="category.error('description')" class="mt-2" />
         </div>
 
         <div class="mt-4 col-span-6 sm:col-span-4">
@@ -46,6 +46,7 @@
         <div class="mt-4">
             <jet-label for="color" value="Couleur" />
             <slider id="color" v-model="color" />
+            <jet-input-error :message="category.error('color')" class="mt-2" />
         </div>
 
         <div class="mt-4">

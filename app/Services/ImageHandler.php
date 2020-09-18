@@ -3,14 +3,17 @@
 namespace App\Services;
 
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 
 class ImageHandler
 {
     /**
+     * Handles of of MyPetsNanny's uploads, returns the path when done uploading.
+     *
      * @param UploadedFile $file
      *   The uploaded file
      * @param $origin
-     *   States the model's origin (category, user, prestation...)
+     *   The content type (category, user, activity...)
      * @param $id
      *   The content's id.
      * @param bool $update
@@ -19,9 +22,32 @@ class ImageHandler
      * @return string
      *   Returns the uploaded image's path.
      */
-    public static function upload (UploadedFile $file, $origin, $id, $update = FALSE)
+    public static function upload (UploadedFile $file, $origin, $id, $update = FALSE) : string
     {
-        $path = $file->storePubliclyAs("/$origin/$id", $file->getClientOriginalName(), ['disk' => 'public']);
+        $base_path = "/$origin/$id";
+
+        if ($update) {
+            Storage::disk('public')->deleteDirectory($base_path);
+        }
+
+        $path = $file->storePubliclyAs($base_path, $file->getClientOriginalName(), ['disk' => 'public']);
+
         return '/storage/' . $path;
+    }
+
+    /**
+     * Is called when deleting a content type that contains medias.
+     *
+     * @param string $origin
+     *   The content type (category, user, activity...)
+     * @param int $id
+     *   The content's id.
+     *
+     * @return void
+     */
+    public static function cleanup ($origin, $id) : void
+    {
+        $base_path = "/$origin/$id";
+        Storage::disk('public')->deleteDirectory($base_path);
     }
 }

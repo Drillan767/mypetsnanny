@@ -6,8 +6,6 @@
             </h2>
         </template>
 
-        <EditForm :is-opened="slideOpen" :category="category" @close-edit="closeEdit" />
-
         <div class="flex flex-col">
             <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                 <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
@@ -56,9 +54,8 @@
                                     </span>
                                 </td>
                                 <td class="px-6 py-4 whitespace-no-wrap text-right text-sm leading-5 font-medium">
-                                    <span @click.prevent="edit(category)" class="cursor-pointer text-indigo-600 hover:text-indigo-900">Modifier</span>
-                                    |
-                                    <span class="cursor-pointer text-red-600 hover:text-red-900">Supprimer</span>
+                                    <span @click="edit(category)" class="cursor-pointer text-indigo-600 hover:text-indigo-900">Modifier</span>
+                                    <span @click="displayDelete(category)" class="ml-4 cursor-pointer text-red-600 hover:text-red-900">Supprimer</span>
 
                                 </td>
                             </tr>
@@ -71,6 +68,8 @@
         </div>
 
         <CreateForm :show="createCategory" @close="closeCreate" />
+        <EditForm :is-opened="slideOpen" :category="category" @close-edit="closeEdit" />
+        <Delete :show="showDelete" :category="categoryToDelete" @close-delete="closeDelete" />
 
     </admin-layout>
 </template>
@@ -81,10 +80,12 @@ import SlideOver from "../../Jetstream/SlideOver";
 import JetButton from './../../Jetstream/Button';
 import CreateForm from './CreateForm';
 import EditForm from "./EditForm";
+import Delete from "./Delete";
 
 export default {
     props: ['categories'],
     components: {
+        Delete,
         CreateForm,
         EditForm,
         JetButton,
@@ -98,6 +99,8 @@ export default {
             slideOpen: false,
             createCategory: false,
             editedCategory: false,
+            showDelete: false,
+            categoryToDelete: null,
         }
     },
 
@@ -118,6 +121,15 @@ export default {
         displayCategoryModal () {
             this.createCategory = true;
         },
+
+        displayDelete (category) {
+            this.showDelete = true;
+            this.categoryToDelete = category;
+        },
+
+        closeDelete () {
+            this.showDelete = false;
+        }
     }
 }
 </script>

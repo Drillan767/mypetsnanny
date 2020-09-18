@@ -1,7 +1,7 @@
 <template>
     <slide-over :title="'Coucou les enfants'" :is-opened="isOpened" @close-slide="closeSlide">
         <template #slide-over>
-            <Form :category="categoryForm" ref="categoryForm" :editing="true" @submit-edit="submit" />
+            <Form :category="categoryForm" ref="categoryForm" :editing="true" @submit-edit="submit" @close-slide="closeSlide" />
         </template>
     </slide-over>
 </template>
@@ -36,13 +36,15 @@ export default {
 
         submit () {
             const childForm = this.$refs.categoryForm;
+
             this.categoryForm.icon = childForm.$refs.icon.files[0];
-            this.categoryForm.color = childForm.color.hex;
+            this.categoryForm.color = childForm.color.hex === undefined ? this.categoryForm.color : childForm.color.hex;
 
             this.categoryForm.post('/admin/category/update', {
                     preserveScroll: true
                 }
-            ).then(() => {
+            )
+            .then(() => {
                 if (! this.categoryForm.hasErrors()) {
                     this.closeSlide()
                 }

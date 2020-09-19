@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\{CategoryController};
+use App\Http\Controllers\{CategoryController, ActivityController};
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -30,5 +30,14 @@ Route::middleware(['auth:sanctum', 'sanctum.role:administrator'])->prefix('/admi
         Route::post('/add', [CategoryController::class, 'store'])->name('category.store');
         Route::post('/update', [CategoryController::class, 'update'])->name('category.update');
         Route::post('/delete/{category:id}', [CategoryController::class, 'delete'])->name('category.delete');
+    });
+
+    Route::get('/prestations', [ActivityController::class, 'all'])->name('activity.all');
+    Route::prefix('/prestation')->group(function() {
+        Route::get('/creer-prestation', [ActivityController::class, 'create']);
+        Route::post('/add', [ActivityController::class, 'store'])->name('activity.store');
+        Route::get('/editer-prestation', [ActivityController::class, 'edit']);
+        Route::post('/update', [ActivityController::class, 'update'])->name('activity.update');
+        Route::post('/delete/{activity:id}', [ActivityController::class, 'store'])->name('activity.delete');
     });
 });

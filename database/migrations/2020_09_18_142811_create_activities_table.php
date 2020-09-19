@@ -15,6 +15,19 @@ class CreateActivitiesTable extends Migration
     {
         Schema::create('activities', function (Blueprint $table) {
             $table->id();
+            $table->string('title');
+            $table->integer('category_id')->unsigned();
+            $table->string('walk_category')->nullable();
+            $table->string('accepted');
+            $table->string('latitude');
+            $table->string('longitude');
+            $table->dateTime('beginning');
+            $table->dateTime('ending');
+            $table->string('reference')->unique();
+            $table->integer('initial_slots');
+            $table->integer('remaining_slots');
+            $table->float('price_cat', 10, 2)->nullable();
+            $table->float('price_dog', 10, 2)->nullable();
             $table->timestamps();
         });
     }

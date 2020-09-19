@@ -18,6 +18,21 @@
                                 Tableau de bord
                             </jet-nav-link>
                         </div>
+
+                        <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                            <jet-nav-link
+                                href="/admin/prestations"
+                                :active="['activity.all', 'activity.create', 'activity.edit'].includes($page.currentRouteName)"
+                            >
+                                Prestations
+                            </jet-nav-link>
+                        </div>
+
+                        <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                            <jet-nav-link href="/admin/categories" :active="$page.currentRouteName === 'category.all'">
+                                Categories
+                            </jet-nav-link>
+                        </div>
                     </div>
 
                     <!-- Settings Dropdown -->
@@ -50,7 +65,7 @@
                                         Catégories
                                     </jet-dropdown-link>
 
-                                    <jet-dropdown-link href="/user/profile">
+                                    <jet-dropdown-link href="/admin/prestations">
                                         Prestations
                                     </jet-dropdown-link>
 
@@ -97,6 +112,21 @@
                     </jet-responsive-nav-link>
                 </div>
 
+                <div class="pt-2 pb-3 space-y-1">
+                    <jet-responsive-nav-link
+                        href="/admin/prestations"
+                        :active="['activity.all', 'activity.create', 'activity.edit'].includes($page.currentRouteName)"
+                    >
+                        Prestations
+                    </jet-responsive-nav-link>
+                </div>
+
+                <div class="pt-2 pb-3 space-y-1">
+                    <jet-responsive-nav-link href="/admin/categories" :active="$page.currentRouteName === 'category.all'">
+                        Categories
+                    </jet-responsive-nav-link>
+                </div>
+
                 <!-- Responsive Settings Options -->
                 <div class="pt-4 pb-1 border-t border-gray-200">
                     <div class="flex items-center px-4">
@@ -112,11 +142,7 @@
 
                     <div class="mt-3 space-y-1">
                         <jet-responsive-nav-link href="/user/profile" :active="$page.currentRouteName === 'profile.show'">
-                            Profile
-                        </jet-responsive-nav-link>
-
-                        <jet-responsive-nav-link href="/user/api-tokens" :active="$page.currentRouteName === 'api-tokens.index'" v-if="$page.jetstream.hasApiFeatures">
-                            API Tokens
+                            Profil
                         </jet-responsive-nav-link>
 
                         <!-- Authentication -->
@@ -142,7 +168,7 @@
             <div class="py-12">
                 <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <alert-bag v-if="$page.errors.type" :type="$page.errors.type" :title="$page.errors.title" :message="$page.errors.msg" />
-                    <alert-bag v-if="$page.success" :type="'success'" :title="'Opération réussie'" :message="$page.success" />
+                    <alert-bag v-if="$page.flash.success" :type="'success'" :title="'Opération réussie'" :message="$page.flash.success" />
                     <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                         <slot></slot>
                     </div>

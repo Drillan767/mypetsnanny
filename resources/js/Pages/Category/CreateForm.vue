@@ -66,7 +66,7 @@ export default {
             }
             ).then(() => {
                 if (! this.category.hasErrors()) {
-                    this.createCategory = false;
+                    this.close();
                 }
             })
         },

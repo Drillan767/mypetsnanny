@@ -23,7 +23,7 @@
 
             <!-- Current Icon displaying -->
 
-            <div class="mt-2" v-show="! iconPreview">
+            <div class="mt-2" v-show="!iconPreview && category.icon">
                 <span class="block rounded-full w-20 h-20"
                       :style="'background-size: cover; background-repeat: no-repeat; background-position: center; background-image: url(\'' + category.icon + '\');'">
                 </span>

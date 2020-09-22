@@ -169,10 +169,8 @@
                 <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <alert-bag v-if="$page.errors.type" :type="$page.errors.type" :title="$page.errors.title" :message="$page.errors.msg" />
                     <alert-bag v-if="$page.flash.success" :type="'success'" :title="'Opération réussie'" :message="$page.flash.success" />
-                    <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                        <slot></slot>
-                    </div>
                 </div>
+                <slot></slot>
             </div>
         </main>
 

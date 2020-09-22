@@ -10,7 +10,7 @@
             <jet-input-error :message="category.error('title')" class="mt-2" />
         </div>
         <div class="mt-4">
-            <jet-textarea :placeholder="'description'" v-model="category.description"></jet-textarea>
+            <jet-textarea :placeholder="'Description'" v-model="category.description"></jet-textarea>
 
             <jet-input-error :message="category.error('description')" class="mt-2" />
         </div>

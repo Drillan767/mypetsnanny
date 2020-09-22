@@ -76,12 +76,14 @@ class CategoryController extends Controller
             $category->{$field} = $request->get($field);
 
             if ($field === 'whole_day') {
-                $category->{$field} = $request->get($field) === 1;
+                $category->{$field} = $request->get($field) === '1';
             }
         }
 
-        if ($edit && $request->has('icon')) {
-            $category->icon = ImageHandler::upload($request->file('icon'), 'category', $category->id, TRUE);
+        if ($edit) {
+            if ($request->hasFile('icon')) {
+                $category->icon = ImageHandler::upload($request->file('icon'), 'category', $category->id, TRUE);
+            }
         } else {
             $category->icon = '';
             $category->save();

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ActivityRequest;
 use App\Models\Activity;
 use App\Models\Category;
 use Illuminate\Http\Request;
@@ -30,9 +31,9 @@ class ActivityController extends Controller
         return Inertia::render('Activity/Create', compact('categories'));
     }
 
-    public function store ()
+    public function store (ActivityRequest $request)
     {
-
+        dd($request);
     }
 
     public function edit ()

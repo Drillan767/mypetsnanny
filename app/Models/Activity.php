@@ -16,7 +16,7 @@ class Activity extends Model
      */
     public function  category ()
     {
-        return $this->belongsTo('App\Model\Category');
+        return $this->belongsTo('App\Models\Category');
     }
 
     /**
@@ -24,6 +24,6 @@ class Activity extends Model
      */
     public function users ()
     {
-        return $this->belongsToMany('App\Model\User');
+        return $this->belongsToMany('App\Models\User');
     }
 }

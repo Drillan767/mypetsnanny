@@ -16,7 +16,7 @@
                 Annuler
             </jet-secondary-button>
 
-            <jet-danger-button class="ml-2" @click.native="deleteUser">
+            <jet-danger-button class="ml-2" @click.native="deleteCategory">
                 Supprimer
             </jet-danger-button>
         </template>
@@ -50,7 +50,7 @@ export default {
     },
 
     methods: {
-        deleteUser () {
+        deleteCategory () {
             this.form.post('/admin/category/delete/' + this.form.id)
             .then(() => this.close())
         },

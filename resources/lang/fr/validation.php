@@ -1,5 +1,14 @@
 <?php
 
+use App\Models\Category;
+
+$categories = Category::all();
+$category_title = [];
+
+foreach ($categories as $category) {
+    $category_title[$category->id] = $category->title;
+}
+
 return [
     /*
     |--------------------------------------------------------------------------
@@ -132,6 +141,9 @@ return [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
+        'latitude' => [
+            'required' => 'Veuillez sélectionner une localisation.'
+        ]
     ],
 
     /*
@@ -175,5 +187,25 @@ return [
         'time'                  => 'heure',
         'available'             => 'disponible',
         'size'                  => 'taille',
+        'category_id'           => 'catégorie',
+        'beginning'             => 'date de début',
+        'ending'                => 'date de fin',
+        'walk_category'         => 'sous-catégorie'
+    ],
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Custom Value attribute Attributes
+    |--------------------------------------------------------------------------
+    |
+    | The following language lines are used to swap values place-holders
+    | with something more reader friendly such as E-Mail Address instead
+    | of "email". This simply helps us make messages a little cleaner.
+    |
+    */
+
+    'values' => [
+        'category_id' => $category_title
     ],
 ];

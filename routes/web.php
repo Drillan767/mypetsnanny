@@ -36,8 +36,8 @@ Route::middleware(['auth:sanctum', 'sanctum.role:administrator'])->prefix('/admi
     Route::prefix('/prestation')->group(function() {
         Route::get('/creer-prestation', [ActivityController::class, 'create']);
         Route::post('/add', [ActivityController::class, 'store'])->name('activity.store');
-        Route::get('/editer-prestation', [ActivityController::class, 'edit']);
+        Route::get('/editer-prestation/{activity:id}', [ActivityController::class, 'edit']);
         Route::post('/update', [ActivityController::class, 'update'])->name('activity.update');
-        Route::post('/delete/{activity:id}', [ActivityController::class, 'store'])->name('activity.delete');
+        Route::post('/delete/{activity:id}', [ActivityController::class, 'delete'])->name('activity.delete');
     });
 });

@@ -28,6 +28,7 @@ class CreateActivitiesTable extends Migration
             $table->integer('remaining_slots');
             $table->float('price_cat', 10, 2)->nullable();
             $table->float('price_dog', 10, 2)->nullable();
+            $table->boolean('public');
             $table->timestamps();
         });
     }

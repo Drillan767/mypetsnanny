@@ -72,6 +72,7 @@
                     <Datetime
                         v-model="activity.beginning"
                         type="datetime"
+                        :minute-step="15"
                         input-class="form-input rounded-md shadow-sm mt-1 block w-full"
                     />
                     <jet-input-error :message="activity.error('beginning')" class="mt-2" />
@@ -84,6 +85,7 @@
                     <Datetime
                         v-model="activity.ending"
                         type="datetime"
+                        :minute-step="15"
                         input-class="form-input rounded-md shadow-sm mt-1 block w-full"
                     />
                     <jet-input-error :message="activity.error('ending')" class="mt-2" />
@@ -117,6 +119,8 @@
                         />
                         <l-marker v-for="(marker, index) in formSettings.markers" :lat-lng="marker" :key="index"/>
                     </l-map>
+
+                    <jet-input-error :message="activity.error('latitude')" class="mt-2" />
                 </div>
             </template>
         </jet-section>
@@ -191,7 +195,7 @@
             <button
                 @click="publish(true)"
                 type="button"
-                class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray transition ease-in-out duration-150"
+                class="ml-2 inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray transition ease-in-out duration-150"
             >
                 Enregistrer et publier
             </button>
@@ -214,6 +218,9 @@ import VueNumberInput from '@chenfengyuan/vue-number-input';
 import { Datetime } from 'vue-datetime';
 import 'leaflet/dist/leaflet.css';
 export default {
+
+    props: ['activity', 'updating'],
+
     components: {
         JetSection,
         JetLabel,
@@ -241,21 +248,6 @@ export default {
                 {id: 'balade_matin', title:'Balade du matin'},
                 {id: 'balade_soir', title:'Balade du soir'}
             ],
-            activity: this.$inertia.form({
-                title: '',
-                category_id: null,
-                accepted: [],
-                beginning: '',
-                ending: '',
-                walk_category: '',
-                latitude: '',
-                longitude: '',
-                initial_slots: 0,
-                price_cat: '',
-                price_dog: '',
-                whole_day: false,
-                public: null
-            }),
             formSettings: {
                 map_center: latLng(45.17200129430783, 5.726623535156251),
                 map_url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -268,7 +260,6 @@ export default {
                 whole_day_text: "L'évènement durera-t-il toute la journée ?"
 
             },
-            errors: []
         }
     },
 
@@ -284,13 +275,12 @@ export default {
     methods: {
 
         publish (value) {
-            console.log('public: ', value);
             this.activity.public = value;
             this.submit();
         },
 
         submit () {
-            this.activity.post('/admin/prestation/add')
+            this.$emit('submit');
         },
 
         /**

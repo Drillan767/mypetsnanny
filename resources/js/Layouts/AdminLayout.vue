@@ -18,6 +18,21 @@
                                 Tableau de bord
                             </jet-nav-link>
                         </div>
+
+                        <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                            <jet-nav-link
+                                href="/admin/prestations"
+                                :active="['activity.all', 'activity.create', 'activity.edit'].includes($page.currentRouteName)"
+                            >
+                                Prestations
+                            </jet-nav-link>
+                        </div>
+
+                        <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                            <jet-nav-link href="/admin/categories" :active="$page.currentRouteName === 'category.all'">
+                                Categories
+                            </jet-nav-link>
+                        </div>
                     </div>
 
                     <!-- Settings Dropdown -->
@@ -42,46 +57,34 @@
 
                                     <div class="border-t border-gray-100"></div>
 
-                                    <!-- Team Management -->
-                                    <template v-if="$page.jetstream.hasTeamFeatures">
-                                        <div class="block px-4 py-2 text-xs text-gray-400">
-                                            Manage Team
-                                        </div>
+                                    <div class="block px-4 py-2 text-xs text-gray-400">
+                                        Prestations
+                                    </div>
 
-                                        <!-- Team Settings -->
-                                        <jet-dropdown-link :href="'/teams/' + $page.user.current_team.id">
-                                            Team Settings
-                                        </jet-dropdown-link>
+                                    <jet-dropdown-link href="/admin/categories">
+                                        Catégories
+                                    </jet-dropdown-link>
 
-                                        <jet-dropdown-link href="/teams/create" v-if="$page.jetstream.canCreateTeams">
-                                            Create New Team
-                                        </jet-dropdown-link>
+                                    <jet-dropdown-link href="/admin/prestations">
+                                        Prestations
+                                    </jet-dropdown-link>
 
-                                        <div class="border-t border-gray-100"></div>
+                                    <div class="border-t border-gray-100"></div>
 
-                                        <!-- Team Switcher -->
-                                        <div class="block px-4 py-2 text-xs text-gray-400">
-                                            Switch Teams
-                                        </div>
+                                    <div class="block px-4 py-2 text-xs text-gray-400">
+                                        Utilisateurs
+                                    </div>
 
-                                        <template v-for="team in $page.user.all_teams">
-                                            <form @submit.prevent="switchToTeam(team)">
-                                                <jet-dropdown-link as="button">
-                                                    <div class="flex items-center">
-                                                        <svg v-if="team.id === $page.user.current_team_id" class="mr-2 h-5 w-5 text-green-400" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                                        <div>{{ team.name }}</div>
-                                                    </div>
-                                                </jet-dropdown-link>
-                                            </form>
-                                        </template>
+                                    <jet-dropdown-link href="/user/profile">
+                                        Tous les utilisateurs
+                                    </jet-dropdown-link>
 
-                                        <div class="border-t border-gray-100"></div>
-                                    </template>
+                                    <div class="border-t border-gray-100"></div>
 
                                     <!-- Authentication -->
                                     <form @submit.prevent="logout">
                                         <jet-dropdown-link as="button">
-                                            Logout
+                                            Déconnexion
                                         </jet-dropdown-link>
                                     </form>
                                 </template>
@@ -109,6 +112,21 @@
                     </jet-responsive-nav-link>
                 </div>
 
+                <div class="pt-2 pb-3 space-y-1">
+                    <jet-responsive-nav-link
+                        href="/admin/prestations"
+                        :active="['activity.all', 'activity.create', 'activity.edit'].includes($page.currentRouteName)"
+                    >
+                        Prestations
+                    </jet-responsive-nav-link>
+                </div>
+
+                <div class="pt-2 pb-3 space-y-1">
+                    <jet-responsive-nav-link href="/admin/categories" :active="$page.currentRouteName === 'category.all'">
+                        Categories
+                    </jet-responsive-nav-link>
+                </div>
+
                 <!-- Responsive Settings Options -->
                 <div class="pt-4 pb-1 border-t border-gray-200">
                     <div class="flex items-center px-4">
@@ -124,11 +142,7 @@
 
                     <div class="mt-3 space-y-1">
                         <jet-responsive-nav-link href="/user/profile" :active="$page.currentRouteName === 'profile.show'">
-                            Profile
-                        </jet-responsive-nav-link>
-
-                        <jet-responsive-nav-link href="/user/api-tokens" :active="$page.currentRouteName === 'api-tokens.index'" v-if="$page.jetstream.hasApiFeatures">
-                            API Tokens
+                            Profil
                         </jet-responsive-nav-link>
 
                         <!-- Authentication -->
@@ -151,7 +165,13 @@
 
         <!-- Page Content -->
         <main>
-            <slot></slot>
+            <div class="py-12">
+                <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                    <alert-bag v-if="$page.errors.type" :type="$page.errors.type" :title="$page.errors.title" :message="$page.errors.msg" />
+                    <alert-bag v-if="$page.flash.success" :type="'success'" :title="'Opération réussie'" :message="$page.flash.success" />
+                </div>
+                <slot></slot>
+            </div>
         </main>
 
         <!-- Modal Portal -->
@@ -161,49 +181,43 @@
 </template>
 
 <script>
-    import JetApplicationLogo from './../Jetstream/ApplicationLogo'
-    import JetApplicationMark from './../Jetstream/ApplicationMark'
-    import JetDropdown from './../Jetstream/Dropdown'
-    import JetDropdownLink from './../Jetstream/DropdownLink'
-    import JetNavLink from './../Jetstream/NavLink'
-    import JetResponsiveNavLink from './../Jetstream/ResponsiveNavLink'
+import JetApplicationLogo from './../Jetstream/ApplicationLogo'
+import JetApplicationMark from './../Jetstream/ApplicationMark'
+import JetDropdown from './../Jetstream/Dropdown'
+import JetDropdownLink from './../Jetstream/DropdownLink'
+import JetNavLink from './../Jetstream/NavLink'
+import JetResponsiveNavLink from './../Jetstream/ResponsiveNavLink'
+import AlertBag from "../Jetstream/AlertBag";
 
-    export default {
-        components: {
-            JetApplicationLogo,
-            JetApplicationMark,
-            JetDropdown,
-            JetDropdownLink,
-            JetNavLink,
-            JetResponsiveNavLink,
+export default {
+    components: {
+        JetApplicationLogo,
+        JetApplicationMark,
+        JetDropdown,
+        JetDropdownLink,
+        JetNavLink,
+        JetResponsiveNavLink,
+        AlertBag,
+    },
+
+  data() {
+        return {
+            showingNavigationDropdown: false,
+        }
+    },
+
+    methods: {
+        logout() {
+            axios.post('/logout').then(response => {
+                window.location = '/';
+            })
         },
+    },
 
-        data() {
-            return {
-                showingNavigationDropdown: false,
-            }
-        },
-
-        methods: {
-            switchToTeam(team) {
-                this.$inertia.put('/current-team', {
-                    'team_id': team.id
-                }, {
-                    preserveState: false
-                })
-            },
-
-            logout() {
-                axios.post('/logout').then(response => {
-                    window.location = '/';
-                })
-            },
-        },
-
-        computed: {
-            path() {
-                return window.location.pathname
-            }
+    computed: {
+        path() {
+            return window.location.pathname
         }
     }
+}
 </script>

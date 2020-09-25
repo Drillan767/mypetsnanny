@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ActivityRequest;
 use App\Models\Activity;
 use App\Models\Category;
-use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -15,13 +14,52 @@ use Inertia\Response;
 
 class ActivityController extends Controller
 {
+
+    protected $activities;
+
+    public function __construct()
+    {
+        $this->activities = Activity::with('category')->get();
+    }
+
     /**
      * @return Response
      */
     public function all ()
     {
-        $activities = Activity::with('category')->get();
-        return Inertia::render('Activity/All', compact('activities'));
+        return Inertia::render('Activity/All', ['activities' => $this->activities]);
+    }
+
+    /**
+     * @return Response
+     * @throws Exception
+     */
+    public function dashboard ()
+    {
+        $activities = Activity::with(['category' => function($query) {
+            $query->select('id', 'color', 'whole_day');
+        }])->get(['title', 'category_id', 'beginning', 'ending']);
+        $dates = [];
+
+        foreach($activities as $activity) {
+            $category = $activity->category()->first();
+            $date = [
+                'title' => $activity->title,
+                'color' => $category->color,
+            ];
+
+            if ($category->whole_day) {
+                $date['start'] = (new \DateTime($activity->beginning))->format('YYYY-MM-DD');
+                $date['allDay'] = TRUE;
+            } else {
+                $date['start'] = $activity->beginning;
+                $date['end'] = $activity->ending;
+            }
+
+            $dates[] = $date;
+        }
+
+        return Inertia::render('Dashboard', compact('dates'));
     }
 
     /**
@@ -41,26 +79,32 @@ class ActivityController extends Controller
     public function store (ActivityRequest $request)
     {
         $this->handleActivities(new Activity(), $request);
-        $activities = Activity::with('category')->get();
-        return Redirect::route('activity.all', compact('activities'))->with('success', 'La prestation a été créée.');
+        return Redirect::route('activity.all', ['activities' => $this->activities])->with('success', 'La prestation a été créée.');
 
     }
 
     public function edit (Activity $activity)
     {
-        return Inertia::render('Activity/Edit', compact('activity'));
+        $categories = Category::all();
+        return Inertia::render('Activity/Edit', compact('activity', 'categories'));
     }
 
-    public function update ()
+    /**
+     * @param ActivityRequest $request
+     * @param Activity $activity
+     * @return RedirectResponse
+     * @throws Exception
+     */
+    public function update (ActivityRequest $request, Activity $activity)
     {
-
+        $this->handleActivities($activity, $request);
+        return Redirect::route('activity.all', ['activities' => $this->activities])->with('success', 'La prestation a été mise à jour.');
     }
 
     public function delete (Activity $activity)
     {
         $activity->delete();
-        $activities = Activity::with('category')->get();
-        return Redirect::route('activity.all', compact('activities'))->with('success', 'La prestation a été supprimée.');
+        return Redirect::route('activity.all', ['activities' => $this->activities])->with('success', 'La prestation a été supprimée.');
     }
 
     /**
@@ -71,6 +115,7 @@ class ActivityController extends Controller
      */
     private function handleActivities (Activity $activity, Request $request, $editing = FALSE)
     {
+        $category = Category::find($request->get('category_id'));
         $fields = [
             'title',
             'beginning',
@@ -95,13 +140,13 @@ class ActivityController extends Controller
                     break;
 
                 case 'beginning':
-                case 'ending':
                     $activity->beginning = (new \DateTime($request->get('beginning')))->format('Y-m-d H:i:s');
-
-                    if ($request->filled($field)) {
-                        $activity->ending = (new \DateTime($request->get('beginning')))->format('Y-m-d H:i:s');
-                    } else {
+                    break;
+                case 'ending':
+                    if ($category->whole_day) {
                         $activity->ending = $activity->beginning;
+                    } else {
+                        $activity->ending = (new \DateTime($request->get('ending')))->format('Y-m-d H:i:s');
                     }
                     break;
 
@@ -112,7 +157,6 @@ class ActivityController extends Controller
                     break;
 
                 case 'reference':
-                    $category = Category::find($request->get('category_id'));
                     if ($category->slug === 'balade') {
                         $reference = $request->get('walk_category');
                     } else {

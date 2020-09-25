@@ -14,9 +14,9 @@ class Activity extends Model
     /**
      * @return BelongsTo
      */
-    public function  category ()
+    public function category ()
     {
-        return $this->belongsTo('App\Models\Category');
+        return $this->belongsTo('App\Models\Category', 'category_id');
     }
 
     /**

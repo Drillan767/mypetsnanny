@@ -218,8 +218,11 @@ import VueNumberInput from '@chenfengyuan/vue-number-input';
 import { Datetime } from 'vue-datetime';
 import 'leaflet/dist/leaflet.css';
 export default {
-
-    props: ['activity', 'updating'],
+    props: {
+        updating: {
+            default: false,
+        }
+    },
 
     components: {
         JetSection,
@@ -239,6 +242,21 @@ export default {
 
     data () {
         return {
+            activity: this.$inertia.form({
+                title: '',
+                category_id: null,
+                accepted: [],
+                beginning: '',
+                ending: '',
+                walk_category: '',
+                latitude: '',
+                longitude: '',
+                initial_slots: 0,
+                price_cat: '',
+                price_dog: '',
+                whole_day: false,
+                public: null
+            }),
             animals: [
                 {id: 'chien', name: 'Chien'},
                 {id: 'chat', name: 'Chat'}
@@ -264,6 +282,25 @@ export default {
     },
 
     mounted() {
+
+        if (this.updating) {
+            this.activity = this.$inertia.form({
+                ...this.$page.activity
+            })
+            this.activity.accepted = JSON.parse(this.activity.accepted)
+            this.formSettings.markers.push({lat: this.activity.latitude, lng: this.activity.longitude})
+
+            const reference = this.activity.reference.split('_')[0];
+            if (reference === 'visite' || reference === 'pension') {
+                this.formSettings.show_animals = true;
+            }
+
+            this.activity.beginning = new Date(this.activity.beginning).toISOString()
+            this.activity.ending = new Date(this.activity.ending).toISOString()
+
+            this.updateForm();
+        }
+
         delete Icon.Default.prototype._getIconUrl;
         Icon.Default.mergeOptions({
             iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
@@ -280,7 +317,12 @@ export default {
         },
 
         submit () {
-            this.$emit('submit');
+            if (this.updating) {
+                this.activity.post(`/admin/prestation/update/${this.activity.id}`)
+            } else {
+                this.activity.post('/admin/prestation/add');
+            }
+
         },
 
         /**
@@ -365,3 +407,4 @@ export default {
     },
 }
 </script>
+

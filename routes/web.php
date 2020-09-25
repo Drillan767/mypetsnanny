@@ -18,10 +18,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return Inertia\Inertia::render('Dashboard');
-})->name('dashboard');
-
 // Routes for the administrator
 Route::middleware(['auth:sanctum', 'sanctum.role:administrator'])->prefix('/admin')->group(function () {
     Route::get('/categories', [CategoryController::class, 'all'])->name('category.all');
@@ -32,12 +28,14 @@ Route::middleware(['auth:sanctum', 'sanctum.role:administrator'])->prefix('/admi
         Route::post('/delete/{category:id}', [CategoryController::class, 'delete'])->name('category.delete');
     });
 
+    Route::get('/dashboard', [ActivityController::class, 'dashboard'])->name('activity.dashboard');
+
     Route::get('/prestations', [ActivityController::class, 'all'])->name('activity.all');
     Route::prefix('/prestation')->group(function() {
         Route::get('/creer-prestation', [ActivityController::class, 'create']);
         Route::post('/add', [ActivityController::class, 'store'])->name('activity.store');
         Route::get('/editer-prestation/{activity:id}', [ActivityController::class, 'edit']);
-        Route::post('/update', [ActivityController::class, 'update'])->name('activity.update');
+        Route::post('/update/{activity:id}', [ActivityController::class, 'update'])->name('activity.update');
         Route::post('/delete/{activity:id}', [ActivityController::class, 'delete'])->name('activity.delete');
     });
 });

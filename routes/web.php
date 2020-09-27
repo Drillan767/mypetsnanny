@@ -1,7 +1,9 @@
 <?php
 
-use App\Http\Controllers\{CategoryController, ActivityController};
+use App\Http\Controllers\{CategoryController, ActivityController, ClientController};
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
+use Laravel\Jetstream\Http\Controllers\Inertia\UserProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,6 +18,15 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::get('/dashboard', function () {
+    $path = auth()->user()->role === 'administrator' ? 'activity.dashboard' : 'client.profile';
+    return Redirect::route($path);
+});
+
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('/profil/configuration', [UserProfileController::class, 'show'])->name('profile.show');
 });
 
 // Routes for the administrator
@@ -38,4 +49,8 @@ Route::middleware(['auth:sanctum', 'sanctum.role:administrator'])->prefix('/admi
         Route::post('/update/{activity:id}', [ActivityController::class, 'update'])->name('activity.update');
         Route::post('/delete/{activity:id}', [ActivityController::class, 'delete'])->name('activity.delete');
     });
+});
+
+Route::middleware(['auth:sanctum', 'sanctum.role:client'])->prefix('/profil')->group(function () {
+    Route::get('', [ClientController::class, '__invoke'])->name('client.profile');
 });

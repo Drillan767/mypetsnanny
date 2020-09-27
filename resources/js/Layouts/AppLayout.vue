@@ -124,11 +124,7 @@
 
                     <div class="mt-3 space-y-1">
                         <jet-responsive-nav-link href="/user/profile" :active="$page.currentRouteName === 'profile.show'">
-                            Profile
-                        </jet-responsive-nav-link>
-
-                        <jet-responsive-nav-link href="/user/api-tokens" :active="$page.currentRouteName === 'api-tokens.index'" v-if="$page.jetstream.hasApiFeatures">
-                            API Tokens
+                            Profil
                         </jet-responsive-nav-link>
 
                         <!-- Authentication -->
@@ -153,10 +149,6 @@
         <main>
             <slot></slot>
         </main>
-
-        <!-- Modal Portal -->
-        <portal-target name="modal" multiple>
-        </portal-target>
     </div>
 </template>
 

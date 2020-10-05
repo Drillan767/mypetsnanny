@@ -1,0 +1,40 @@
+.gradient {
+    background: linear-gradient(90deg, #3353c4 0%, #daae51 100%);
+}
+
+.hero-video {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 24vh;
+    left: 0;
+    overflow: hidden;
+
+    .video {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        height: auto;
+        min-height: 100%;
+        min-width: 100%;
+        width: auto;
+    }
+}
+
+#newsletter {
+    .nwsltr-img {
+        clip-path: circle(68% at 54% 50%);
+    }
+}
+
+#fonctionnement .steps {
+    height: 275px;
+}
+
+#contact {
+    background-image: url('https://thewallpaper.co//wp-content/uploads/2017/07preview/dogs-full-hd-paws-cats-mobile-wallpapers-cat-animals-cute-apple-pet-desktop-wallpapers-best-glance-dog-humor-1920x1200.jpg');
+    background-position: center;
+    background-attachment: fixed;
+    background-size: 100%;
+}

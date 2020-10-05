@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\{CategoryController, ActivityController};
+use App\Http\Controllers\{CategoryController, ActivityController, HomeController};
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,12 +14,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [HomeController::class, 'landing']);
+Route::post('/', [HomeController::class, 'submit']);
+Route::post('/mentions-legales', [HomeController::class, 'privacy']);
 
 // Routes for the administrator
 Route::middleware(['auth:sanctum', 'sanctum.role:administrator'])->prefix('/admin')->group(function () {
+
+    Route::prefix('/accueil')->group(function () {
+        Route::get('/editer', [HomeController::class, 'edit']);
+        Route::post('', [HomeController::class, 'update']);
+    });
+
+
     Route::get('/categories', [CategoryController::class, 'all'])->name('category.all');
 
     Route::prefix('/category')->group(function () {

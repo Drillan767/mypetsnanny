@@ -9,7 +9,7 @@
                     </p>
                     <p v-if="success">Bien ouej</p>
                     <div class="sm:flex">
-                        <input type="email" required="" placeholder="Entrez votre email" class="block sm:max-w-xs w-full px-4 py-3 text-base leading-6 appearance-none border border-gray-300 shadow-none bg-white rounded-md placeholder-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300">
+                        <JetInput type="email" v-model="newsletter.email" required="required" placeholder="Entrez votre email" />
                         <button class="mt-4 relative sm:mt-0 sm:h-auto sm:ml-4 block w-full sm:w-auto border border-transparent px-6 py-3 text-base leading-6 font-semibold leading-snug bg-gray-900 text-white rounded-md shadow-md hover:bg-gray-800 focus:outline-none focus:bg-gray-800 transition ease-in-out duration-150 hover:bg-gray-600" :class="{ 'opacity-25': newsletter.processing }" :disabled="newsletter.processing">
                             Inscription
                         </button>
@@ -25,9 +25,11 @@
 </template>
 
 <script>
+import JetInput from '../../Jetstream/Input'
 import JetInputError from '../../Jetstream/InputError'
 export default {
     components: {
+        JetInput,
         JetInputError,
     },
 

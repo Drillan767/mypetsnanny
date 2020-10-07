@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\{CategoryController, ActivityController, HomeController};
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,6 +15,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/dashboard', function () {
+    $path = auth()->user()->role === 'administrator' ? 'activity.dashboard' : 'client.profile';
+    return Redirect::route($path);
+});
+
 Route::get('/', [HomeController::class, 'landing']);
 Route::post('/', [HomeController::class, 'submit']);
 Route::post('/mentions-legales', [HomeController::class, 'privacy']);
@@ -25,7 +31,6 @@ Route::middleware(['auth:sanctum', 'sanctum.role:administrator'])->prefix('/admi
         Route::get('/editer', [HomeController::class, 'edit']);
         Route::post('', [HomeController::class, 'update']);
     });
-
 
     Route::get('/categories', [CategoryController::class, 'all'])->name('category.all');
 
@@ -45,4 +50,7 @@ Route::middleware(['auth:sanctum', 'sanctum.role:administrator'])->prefix('/admi
         Route::post('/update/{activity:id}', [ActivityController::class, 'update'])->name('activity.update');
         Route::post('/delete/{activity:id}', [ActivityController::class, 'delete'])->name('activity.delete');
     });
+
+    Route::get('/editer-accueil', [HomeController::class, 'edit'])->name('landing.edit');
+    Route::post('/update-landing', [HomeController::class, 'update'])->name('landing.edit');
 });

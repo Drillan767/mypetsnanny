@@ -12,7 +12,8 @@ class HomeController extends Controller
 {
     public function landing ()
     {
-        return Inertia::render('Home/Landing', );
+
+        return Inertia::render('Home/Landing'/*, ['landing' => Landing::first()]*/);
     }
 
     public function submit (ContactRequest $request)
@@ -20,8 +21,18 @@ class HomeController extends Controller
         // Sends an email to Aleks
     }
 
+    /**
+     * Displays the landing page's edition form.
+     *
+     * @return \Inertia\Response
+     */
     public function edit ()
     {
-        //
+        return Inertia::render('Home/Edit/LandingEdit', ['landing' => Landing::first()]);
+    }
+
+    public function update ()
+    {
+
     }
 }

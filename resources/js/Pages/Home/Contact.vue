@@ -1,5 +1,5 @@
 <template>
-    <section id="contact" class="text-center pb-12">
+    <section id="contact" class="pb-12">
 
         <svg class="wave-top" viewBox="0 0 1439 147" xmlns="http://www.w3.org/2000/svg">
             <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -18,43 +18,86 @@
             </g>
         </svg>
 
-        <h1 class="w-full my-2 text-5xl font-bold leading-tight text-center text-white">Soyez là !</h1>
+        <h1 class="w-full my-2 text-5xl font-bold leading-tight text-center text-white">Une question ?</h1>
         <div class="w-full mb-4">
             <div class="h-1 mx-auto bg-white w-1/6 opacity-25 my-0 py-0 rounded-t"></div>
         </div>
 
-        <h3 class="my-4 text-3xl leading-tight">Ici y'aura une bête de formulaire de contact mais wallah j'ai pas eu le temps</h3>
+        <h3 class="my-4 text-3xl leading-tight text-center">N'hésitez pas à me contacter via ce formulaire </h3>
 
-        <button class="mx-auto lg:mx-0 hover:underline bg-white text-gray-800 font-bold rounded-full my-6 py-4 px-8 shadow-lg">Envoyer</button>
+        <div class="container mx-auto">
+            <div class="flex">
+                <div class="flex-1">
+                    <div class="mt-2">
+                        <JetInput v-model="contact.email" class="w-full" type="email" placeholder="Adresse email*" required />
+                        <jet-input-error :message="contact.error('email')" class="mt-2" />
+                    </div>
+                    <div class="mt-2 flex">
+                        <div class="flex-1">
+                            <JetInput v-model="contact.first_name" class="w-full" placeholder="Prénom*" required />
+                            <jet-input-error :message="contact.error('first_name')" class="mt-2" />
+                        </div>
+                        <div class="flex-1 ml-2">
+                            <JetInput v-model="contact.last_name" class="w-full" placeholder="Nom de famille*" required />
+                            <jet-input-error :message="contact.error('last_name')" class="mt-2" />
+                        </div>
+                    </div>
+                    <div class="mt-2">
+                        <select v-model="contact.subject" class="block appearance-none w-full text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" required>
+                            <option value="">Selectionnez un sujet...</option>
+                            <option v-for="(option, i) in subjects" :value="option" :key="i">{{ option }}</option>
+                        </select>
 
+                        <jet-input-error :message="contact.error('email')" class="mt-2" />
+                    </div>
+                </div>
+                <div class="w-full ml-4 flex-1">
+                    <JetTextarea v-model="contact.message" placeholder="Écrivez votre message..." required />
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-4">
+            <JetButton>Envoyer</JetButton>
+        </div>
     </section>
 </template>
 
 <script>
-    export default {
-        data () {
-            return {
-                contact: this.$inertia.form({
-                    first_name: '',
-                    last_name: '',
-                    email: '',
-                    subject: '',
-                    message: '',
-                    honey_pot: '',
-                }),
+import JetButton from '../../Jetstream/Button';
+import JetInput from '../../Jetstream/Input';
+import JetTextarea from "../../Jetstream/Textarea";
+import JetInputError from '../../Jetstream/InputError';
+export default {
+    components: {
+        JetInput,
+        JetInputError,
+        JetTextarea,
+        JetButton,
+    },
 
-                subjects: [
-                    'Option 1',
-                    'Option 2',
-                    'Option 3'
-                ],
-            }
-        },
+    data () {
+        return {
+            contact: this.$inertia.form({
+                first_name: '',
+                last_name: '',
+                email: '',
+                subject: '',
+                message: '',
+                honey_pot: '',
+            }),
 
-        methods: {
-            contactSubmit () {
+            subjects: [
+                'Option 1',
+                'Option 2',
+                'Option 3'
+            ],
+        }
+    },
 
-            }
+    methods: {
+        contactSubmit () {
+
         }
     }
+}
 </script>

@@ -120,15 +120,6 @@ export default {
 
     mounted() {
 
-        // Scrollspy
-        const section = document.querySelectorAll('section');
-        let sections = {};
-        let i = 0;
-
-        Array.prototype.forEach.call(section, (e) => {
-            sections[e.id] = e.offsetTop;
-        })
-
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -139,17 +130,25 @@ export default {
             });
         });
 
+        // Scrollspy
+        const section = document.querySelectorAll('section');
+        let sections = {};
+        let i = 0;
+
+        Array.prototype.forEach.call(section, (e) => {
+            sections[e.id] = e.offsetTop;
+        })
+
         window.onscroll = () => {
             let scrollPosition = document.documentElement.scrollTop || document.body.scrollTop;
             for (i in sections) {
-                if (sections[i] <= scrollPosition) {
+                if (sections[i] <= scrollPosition && i !== 'newsletter') {
                     document.querySelector('.text-black.font-bold').classList.remove('text-black', 'font-bold');
                     document.querySelector('a[href*=' + i + ']').classList.add('text-black', 'font-bold')
                 }
             }
         }
         // End scrollspy
-
     },
 
     methods: {

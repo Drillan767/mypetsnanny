@@ -81,6 +81,18 @@
 
                                     <div class="border-t border-gray-100"></div>
 
+                                    <div class="block px-4 py-2 text-xs text-gray-400">
+                                        Paramètres
+                                    </div>
+                                    <jet-dropdown-link href="/user/profile">
+                                        Paramètres généraux
+                                    </jet-dropdown-link>
+                                    <jet-dropdown-link href="/admin/editer-accueil">
+                                        Éditer la page d'accueil
+                                    </jet-dropdown-link>
+
+                                    <div class="border-t border-gray-100"></div>
+
                                     <!-- Authentication -->
                                     <form @submit.prevent="logout">
                                         <jet-dropdown-link as="button">

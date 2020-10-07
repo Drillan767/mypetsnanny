@@ -13,9 +13,33 @@ class CreateLandingsTable extends Migration
      */
     public function up()
     {
-        Schema::create('landings', function (Blueprint $table) {
+        Schema::create('landing', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->string('hero_overtitle');
+            $table->string('hero_title');
+            $table->string('hero_subtitle');
+            $table->string('hero_video');
+            $table->string('hero_banner');
+
+            $table->string('newsletter_title');
+            $table->text('newsletter_text');
+            $table->string('newsletter_image');
+
+            $table->text('services_data');
+
+            $table->string('whomai_title');
+            $table->text('whomai_text');
+            $table->string('whomai_image');
+
+            $table->string('getstarted1_title');
+            $table->text('getstarted1_text');
+            $table->string('getstarted2_title');
+            $table->text('getstarted2_text');
+            $table->string('getstarted3_title');
+            $table->text('getstarted3_text');
+
+            $table->string('contact_subtitle');
+            $table->string('contact_image');
         });
     }
 
@@ -26,6 +50,6 @@ class CreateLandingsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('landings');
+        Schema::dropIfExists('landing');
     }
 }

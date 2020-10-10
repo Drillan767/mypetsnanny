@@ -27,7 +27,8 @@ class LandingFactory extends Factory
         for ($i = 0; $i < 3; $i++) {
             $services_data[] = [
                 'title' => $this->faker->sentence(6),
-                'text' => $this->faker->paragraphs(2),
+                'text' => $this->faker->paragraph(2),
+                'image' => $this->faker->imageUrl('640', '360', 'cats'),
             ];
         }
 
@@ -41,9 +42,9 @@ class LandingFactory extends Factory
             'newsletter_text' => $this->faker->paragraph(1),
             'newsletter_image' => $this->faker->imageUrl('600', '300', 'cats'),
             'services_data' => json_encode($services_data),
-            'whomai_title' => $this->faker->sentence(6),
-            'whomai_text' => $this->faker->paragraph(6),
-            'whomai_image' => $this->faker->imageUrl('350', '600', 'cats'),
+            'whoami_title' => $this->faker->sentence(6),
+            'whoami_text' => $this->faker->paragraph(6),
+            'whoami_image' => $this->faker->imageUrl('350', '600', 'cats'),
             'getstarted1_title' => $this->faker->sentence(6),
             'getstarted1_text' => $this->faker->paragraph(2),
             'getstarted2_title' => $this->faker->sentence(6),

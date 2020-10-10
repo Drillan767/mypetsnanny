@@ -27,9 +27,9 @@ class CreateLandingsTable extends Migration
 
             $table->text('services_data');
 
-            $table->string('whomai_title');
-            $table->text('whomai_text');
-            $table->string('whomai_image');
+            $table->string('whoami_title');
+            $table->text('whoami_text');
+            $table->string('whoami_image');
 
             $table->string('getstarted1_title');
             $table->text('getstarted1_text');

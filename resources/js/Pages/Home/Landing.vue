@@ -3,7 +3,7 @@
         <!-- NAVIGATION -->
         <nav id="header" class="fixed w-full z-30 top-0 text-white bg-white shadow">
 
-            <div class="w-full container mx-auto flex flex-wrap items-center justify-between mt-0 py-2">
+            <div class="w-full container mx-auto flex flex-wrap items-center justify-between mt-0 py-2 pr-4">
 
                 <div class="pl-4 flex items-center">
                     <a class="toggleColour text-white no-underline hover:no-underline font-bold text-2xl lg:text-4xl"  href="/">
@@ -38,26 +38,28 @@
                             <a class="inline-block text-black hover:text-gray-800 py-2 px-4" href="#contact">Contact</a>
                         </li>
                     </ul>
-                    <a
-                        href="/login"
-                        class="
-                            mx-auto
-                            lg:mx-0
-                            bg-white
-                            cursor-pointer
-                            text-gray-800
-                            font-bold
-                            rounded
-                            mt-4
-                            lg:mt-0
-                            py-2 px-4
-                            shadow
-                            bg-gradient-to-r
-                            from-teal-400
-                            to-blue-500
-                        ">
-                        Connexion
-                    </a>
+                    <div class="block text-center lg:inline-block">
+                        <a
+                            href="/login"
+                            class="
+                                mx-auto
+                                lg:mx-0
+                                bg-white
+                                cursor-pointer
+                                text-gray-800
+                                font-bold
+                                rounded
+                                mt-4
+                                lg:mt-0
+                                py-2 px-4
+                                shadow
+                                bg-gradient-to-r
+                                from-teal-400
+                                to-blue-500
+                            ">
+                            Connexion
+                        </a>
+                    </div>
                 </div>
             </div>
 

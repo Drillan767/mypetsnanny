@@ -7,7 +7,7 @@
             </div>
 
             <div class="flex flex-wrap">
-                <div class="w-5/6 sm:w-1/2 p-6">
+                <div class="w-full sm:w-1/2 p-6">
                     <h3 class="text-3xl text-gray-800 font-bold leading-none mb-3">Lorem ipsum dolor sit amet</h3>
                     <p class="text-gray-600 mb-8">
                         Hexagon four dollar toast next level hashtag polaroid. Asymmetrical mixtape selvage tacos. Tilde raclette retro adaptogen. +1 single-origin coffee celiac, messenger bag
@@ -24,7 +24,7 @@
 
             <div class="flex flex-wrap flex-col-reverse sm:flex-row">
                 <div class="w-full sm:w-1/2 p-6 mt-6">
-                    <img src="//loremflickr.com/640/360" alt="image" class="w-5/6 sm:h-64 mx-auto">
+                    <img src="//loremflickr.com/640/360" alt="image" class="w-full sm:h-64 mx-auto">
                 </div>
                 <div class="w-full sm:w-1/2 p-6 mt-6">
                     <div class="align-middle">
@@ -40,7 +40,7 @@
             </div>
 
             <div class="flex flex-wrap">
-                <div class="w-5/6 sm:w-1/2 p-6">
+                <div class="w-full sm:w-1/2 p-6">
                     <h3 class="text-3xl text-gray-800 font-bold leading-none mb-3">Lorem ipsum dolor sit amet</h3>
                     <p class="text-gray-600 mb-8">
                         Hexagon four dollar toast next level hashtag polaroid. Asymmetrical mixtape selvage tacos. Tilde raclette retro adaptogen. +1 single-origin coffee celiac, messenger bag

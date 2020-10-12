@@ -10,6 +10,10 @@
     left: 0;
     overflow: hidden;
 
+    @media (min-width: 1024px) and (max-width: 1279px) {
+        bottom: 21vh;
+    }
+
     .video {
         position: absolute;
         top: 50%;
@@ -22,6 +26,25 @@
     }
 }
 
+#accueil {
+    .wave {
+        bottom: 0.5rem;
+
+        @media (min-width: 768px) {
+            bottom: 0.6rem;
+        }
+
+        @media (min-width: 1024px) {
+            bottom: 1.8rem;
+        }
+
+        @media (min-width: 1280px) {
+            bottom: 0;
+        }
+
+    }
+}
+
 #newsletter {
     .nwsltr-img {
         clip-path: circle(68% at 54% 50%);
@@ -30,6 +53,10 @@
 
 #fonctionnement .steps {
     height: 275px;
+
+    @media (min-width: 768px) and (max-width: 1280px)  {
+        height: auto;
+    }
 }
 
 #contact {

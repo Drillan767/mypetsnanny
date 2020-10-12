@@ -26,18 +26,18 @@
         <h3 class="my-4 text-3xl leading-tight text-center">N'hésitez pas à me contacter via ce formulaire </h3>
 
         <div class="container mx-auto">
-            <div class="flex">
-                <div class="flex-1">
+            <div class="flex flex-col xl:flex-row">
+                <div class="flex-1 mx-4 xl:mx-0">
                     <div class="mt-2">
                         <JetInput v-model="contact.email" class="w-full" type="email" placeholder="Adresse email*" required />
                         <jet-input-error :message="contact.error('email')" class="mt-2" />
                     </div>
-                    <div class="mt-2 flex">
-                        <div class="flex-1">
+                    <div class="mt-2 flex flex-col lg:flex-row">
+                        <div class="lg:flex-1">
                             <JetInput v-model="contact.first_name" class="w-full" placeholder="Prénom*" required />
                             <jet-input-error :message="contact.error('first_name')" class="mt-2" />
                         </div>
-                        <div class="flex-1 ml-2">
+                        <div class="lg:flex-1 mt-2 lg:mt-0 lg:ml-2">
                             <JetInput v-model="contact.last_name" class="w-full" placeholder="Nom de famille*" required />
                             <jet-input-error :message="contact.error('last_name')" class="mt-2" />
                         </div>
@@ -51,8 +51,8 @@
                         <jet-input-error :message="contact.error('email')" class="mt-2" />
                     </div>
                 </div>
-                <div class="w-full ml-4 flex-1">
-                    <JetTextarea v-model="contact.message" placeholder="Écrivez votre message..." required />
+                <div class="mx-4 flex-1 mt-1">
+                    <jet-textarea v-model="contact.message" placeholder="Écrivez votre message..." class="mt-1" />
                 </div>
             </div>
         </div>
@@ -67,8 +67,10 @@ import JetButton from '../../Jetstream/Button';
 import JetInput from '../../Jetstream/Input';
 import JetTextarea from "../../Jetstream/Textarea";
 import JetInputError from '../../Jetstream/InputError';
+import Textarea from "../../Jetstream/Textarea";
 export default {
     components: {
+        Textarea,
         JetInput,
         JetInputError,
         JetTextarea,

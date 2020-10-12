@@ -11,7 +11,7 @@
                 playsinline="playsinline"
             />
 
-            <div class="absolute bottom-0 -mt-12 lg:-mt-24">
+            <div class="wave absolute">
                 <svg viewBox="0 0 1428 174" version="1.1" xmlns="http://www.w3.org/2000/svg">
                     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                         <g transform="translate(-2.000000, 44.000000)" fill="#FFFFFF" fill-rule="nonzero">
@@ -29,7 +29,7 @@
 
         <div class="relative z-10 container px-3 mx-auto flex flex-wrap flex-col md:flex-row items-center">
             <!--Left Col-->
-            <div class="animate__animated animate__fadeIn animate__delay-2s wobble flex flex-col w-full md:w-2/5 justify-center items-start text-center md:text-left">
+            <div class="animate__animated animate__fadeIn animate__delay-2s wobble flex flex-col w-full lg:w-2/5 justify-center items-start text-center lg:text-left">
                 <p class="uppercase tracking-loose w-full">What business are you?</p>
                 <h1 class="my-4 text-5xl font-bold leading-tight">Main Hero Message to sell yourself!</h1>
                 <p class="leading-normal text-2xl mb-8">Sub-hero message, not too long and not too short. Make it just right!</p>

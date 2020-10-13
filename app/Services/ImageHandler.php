@@ -35,6 +35,12 @@ class ImageHandler
         return '/storage/' . $path;
     }
 
+    public static function resize (string $path, string $size)
+    {
+        // TODO: use Intervention/Image
+        return '';
+    }
+
     /**
      * Is called when deleting a content type that contains medias.
      *

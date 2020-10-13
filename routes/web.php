@@ -52,5 +52,5 @@ Route::middleware(['auth:sanctum', 'sanctum.role:administrator'])->prefix('/admi
     });
 
     Route::get('/editer-accueil', [HomeController::class, 'edit'])->name('landing.edit');
-    Route::post('/update-landing', [HomeController::class, 'update'])->name('landing.edit');
+    Route::post('/editer-accueil', [HomeController::class, 'update'])->name('landing.update');
 });

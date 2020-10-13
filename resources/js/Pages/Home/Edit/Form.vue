@@ -1,5 +1,5 @@
 <template>
-    <form @submit.prevent="submit">
+    <form @submit.prevent="submit" method="POST">
         <jet-section>
             <template #title>
                 Landing
@@ -71,7 +71,7 @@
                         Sélectionnez une nouvelle vidéo
                     </jet-secondary-button>
                     <p class="mt-2 font-medium text-xs text-gray-400">
-                        {{ heroVideoMessage.replace('@filename', landing.hero_video.replace(/^.*[\\\/]/, '')) }}
+                        {{ landing.hero_video && heroVideoMessage.replace('@filename', landing.hero_video.replace(/^.*[\\\/]/, '')) }}
                     </p>
 
                     <jet-input-error :message="landing.error('hero_video')" class="mt-2" />
@@ -258,7 +258,7 @@
             </jet-section-title>
 
             <div class="mt-5 md:mt-0 md:col-span-2">
-                <div class="shadow overflow-hidden sm:rounded-md mb-5" v-for="n in 3" :key="3">
+                <div class="shadow overflow-hidden sm:rounded-md mb-5" v-for="n in 3" :key="n">
                     <div class="px-4 py-5 bg-white sm:p-6">
                         <div class="grid grid-cols-6 gap-6">
                             <div class="col-span-6 sm:col-span-4">
@@ -384,8 +384,13 @@ export default {
 
     methods: {
         submit () {
-            // nl2br be like:
-            // .replace(/(\r\n|\n\r|\r|\n)/g, "<br>")
+            this.landing.whoami_text = this.toParagraphs(this.landing.whoami_text);
+            this.landing.services = JSON.stringify(this.services);
+            ['hero_banner', 'hero_video', 'newsletter_image', 'whoami_image', 'contact_image'].forEach((field) => {
+                this.landing[field] = this.$refs[field].files[0] || null;
+            })
+            this.landing.post('/admin/editer-accueil');
+            // window.scrollTo({top: 0, behavior: 'smooth'});
         },
 
         updatePhotoPreview (e, ref, prev) {
@@ -404,13 +409,12 @@ export default {
             this.$refs[ref].click();
         },
 
-        addService () {
+        toParagraphs(value) {
+            const p_list = value.split('\n').filter(p => p!== '');
+            let response = '';
+            p_list.forEach((p) => response += `<p>${p}</p>`)
 
-            this.services.push({title: '', 'text': '', image: ''})
-        },
-
-        removeService (e) {
-            this.services = this.services.filter((s) => s.title !== e)
+            return response
         }
     },
 }

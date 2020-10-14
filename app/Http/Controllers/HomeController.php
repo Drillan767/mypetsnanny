@@ -4,24 +4,32 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ContactRequest;
 use App\Http\Requests\LandingRequest;
+use App\Http\Requests\NewsletterRequest;
 use App\Services\ImageHandler;
 use Illuminate\Http\Request;
 use App\Models\Landing;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Spatie\Honeypot;
+use Spatie\Newsletter\Newsletter;
 
 class HomeController extends Controller
 {
     public function landing ()
     {
 
-        return Inertia::render('Home/Landing'/*, ['landing' => Landing::first()]*/);
+        return Inertia::render('Home/Landing', ['landing' => Landing::first()]);
     }
 
     public function submit (ContactRequest $request)
     {
         // Sends an email to Aleks
+    }
+
+    public function subscribe (NewsletterRequest $request)
+    {
+        (new Newsletter)->subscribe($request->get('email'));
+        return Redirect::back()->with('success', 'Merci !');
     }
 
     /**
@@ -73,15 +81,15 @@ class HomeController extends Controller
 
         foreach ($medias as $file => $format) {
             if ($request->file($file)) {
-                $landing->$field = ImageHandler::upload($request->file($file), explode('_', $field)[0], $landing->id, TRUE);
+                $landing->$field = ImageHandler::upload($request->file($file), 'landing/' . explode('_', $field)[0], $landing->id, TRUE);
                 if ($file !== 'hero_video') {
-                    $landing->$field = ImageHandler::resize($request->$field, $format);
+//                    $landing->$field = ImageHandler::resize($request->$field, $format);
                 }
 
             }
         }
 
         $landing->save();
-        return Redirect::back()->with('success', 'La catégorie a bien été créée.');
+        return Redirect::back()->with('success', "La page d'accueil a été mise à jour.");
     }
 }

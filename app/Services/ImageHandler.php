@@ -4,6 +4,7 @@ namespace App\Services;
 
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Image;
 
 class ImageHandler
 {
@@ -37,8 +38,13 @@ class ImageHandler
 
     public static function resize (string $path, string $size)
     {
-        // TODO: use Intervention/Image
-        return '';
+
+        $resolutions = explode('_', $size);
+        list($width, $height) = $resolutions;
+        Image::make($path)
+            ->resize($width, $height)
+            ->save($path);
+        return $path;
     }
 
     /**

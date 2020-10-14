@@ -38,7 +38,7 @@
 
                     <!-- Current Banner -->
                     <div class="mt-2" v-show="! heroBannerPreview">
-                        <img :src="landing.hero_banner" alt="Current Profile Photo" class="rounded h-30 w-40 object-cover">
+                        <img :src="landing.hero_banner" alt="Current Banner Photo" class="rounded h-30 w-40 object-cover">
                     </div>
 
                     <!-- New Banner Preview -->
@@ -109,11 +109,11 @@
                            ref="newsletter_image"
                            @change="updatePhotoPreview($event, 'newsletter_image', 'newsletterPreview')">
 
-                    <jet-label for="photo" value="Image bannière" />
+                    <jet-label for="photo" value="Image de fond de la partie Newsletter" />
 
                     <!-- Current Newsletter Image -->
                     <div class="mt-2" v-show="! newsletterPreview">
-                        <img :src="landing.newsletter_image" alt="Current Profile Photo" class="rounded h-30 w-40 object-cover">
+                        <img :src="landing.newsletter_image" alt="Image actuelle pour la newsletter" class="rounded h-30 w-40 object-cover">
                     </div>
 
                     <!-- New Newsletter Preview -->
@@ -380,17 +380,23 @@ export default {
 
     mounted() {
         this.services = JSON.parse(this.landing.services_data)
+        this.landing.whoami_text = this.striptags(this.landing.whoami_text);
     },
 
     methods: {
         submit () {
+            window.scrollTo({top: 0, behavior: 'smooth'});
             this.landing.whoami_text = this.toParagraphs(this.landing.whoami_text);
             this.landing.services = JSON.stringify(this.services);
             ['hero_banner', 'hero_video', 'newsletter_image', 'whoami_image', 'contact_image'].forEach((field) => {
                 this.landing[field] = this.$refs[field].files[0] || null;
             })
-            this.landing.post('/admin/editer-accueil');
-            // window.scrollTo({top: 0, behavior: 'smooth'});
+            this.landing.post('/admin/editer-accueil')
+                .then(() => {
+                    this.landing = this.$inertia.form({
+                        ...this.$page.landing
+                    })
+                });
         },
 
         updatePhotoPreview (e, ref, prev) {
@@ -405,16 +411,20 @@ export default {
             this.heroVideoMessage = 'Vidéo chargée : ' + e.target.files[0].name
         },
 
-        selectNewFile(ref) {
+        selectNewFile (ref) {
             this.$refs[ref].click();
         },
 
-        toParagraphs(value) {
+        toParagraphs (value) {
             const p_list = value.split('\n').filter(p => p!== '');
             let response = '';
             p_list.forEach((p) => response += `<p>${p}</p>`)
 
             return response
+        },
+
+        striptags (value) {
+        return value.replace(/<\/p>/g, "\n\n").replace(/<p>/g, "");
         }
     },
 }

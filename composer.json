@@ -20,7 +20,8 @@
         "laravel/jetstream": "^1.1",
         "laravel/sanctum": "^2.6",
         "laravel/tinker": "^2.0",
-        "spatie/laravel-honeypot": "^2.3"
+        "spatie/laravel-honeypot": "^2.3",
+        "spatie/laravel-newsletter": "^4.8"
     },
     "require-dev": {
         "facade/ignition": "^2.3.6",

@@ -10,7 +10,8 @@
                     <p v-if="success">Bien ouej</p>
                     <div class="sm:flex mt-4">
                         <JetInput type="email" class="w-full md:w-auto" v-model="newsletter.email" required="required" placeholder="Entrez votre email" />
-                        <button class="mt-4 relative lg:mt-0 sm:h-auto sm:ml-4 block w-full sm:w-auto border border-transparent px-6 py-3 text-base leading-6 font-semibold leading-snug bg-gray-900 text-white rounded-md shadow-md hover:bg-gray-800 focus:outline-none focus:bg-gray-800 transition ease-in-out duration-150 hover:bg-gray-600" :class="{ 'opacity-25': newsletter.processing }" :disabled="newsletter.processing">
+                        <button class="landing-button sm:ml-4" :class="{ 'opacity-25': newsletter.processing }" :disabled="newsletter.processing"
+                        >
                             Inscription
                         </button>
                     </div>

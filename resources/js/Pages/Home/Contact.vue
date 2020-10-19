@@ -57,7 +57,9 @@
             </div>
         </div>
         <div class="text-center mt-4">
-            <JetButton>Envoyer</JetButton>
+            <button class="landing-button" :class="{ 'opacity-25': contact.processing }" :disabled="contact.processing">
+                Inscription
+            </button>
         </div>
     </section>
 </template>

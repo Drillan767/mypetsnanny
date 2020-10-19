@@ -24,6 +24,11 @@ module.exports = {
                 "100v": "100vh",
                 "full": "100%",
             },
+
+            colors: {
+                orange: '#fc9622',
+                yellow: '#fbbf10',
+            }
         },
     },
 

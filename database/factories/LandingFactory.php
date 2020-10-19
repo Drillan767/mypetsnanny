@@ -22,16 +22,6 @@ class LandingFactory extends Factory
      */
     public function definition()
     {
-
-        $services_data = [];
-        for ($i = 0; $i < 3; $i++) {
-            $services_data[] = [
-                'title' => $this->faker->sentence(6),
-                'text' => $this->faker->paragraph(2),
-                'image' => $this->faker->imageUrl('640', '360', 'cats'),
-            ];
-        }
-
         return  [
             'hero_overtitle' => $this->faker->sentence(6),
             'hero_title'  => $this->faker->sentence(4),
@@ -40,8 +30,13 @@ class LandingFactory extends Factory
             'hero_banner' => $this->faker->imageUrl('1920', '1080', 'cats'),
             'newsletter_title' => $this->faker->sentence(5),
             'newsletter_text' => $this->faker->paragraph(1),
-            'newsletter_image' => $this->faker->imageUrl('600', '300', 'cats'),
-            'services_data' => json_encode($services_data),
+            'newsletter_image' => $this->faker->imageUrl('640', '360', 'cats'),
+            'service1_title' => $this->faker->sentence(8),
+            'service1_text' => $this->faker->paragraph(4),
+            'service1_image' => $this->faker->imageUrl('600', '300', 'cats'),
+            'service2_title' => $this->faker->sentence(8),
+            'service2_text' => $this->faker->paragraph(4),
+            'service2_image' => $this->faker->imageUrl('640', '360', 'cats'),
             'whoami_title' => $this->faker->sentence(6),
             'whoami_text' => $this->faker->paragraph(6),
             'whoami_image' => $this->faker->imageUrl('350', '600', 'cats'),

@@ -25,7 +25,15 @@ class CreateLandingsTable extends Migration
             $table->text('newsletter_text');
             $table->string('newsletter_image');
 
-            $table->text('services_data');
+            $table->string('service1_title');
+            $table->text('service1_text');
+            $table->string('service1_image');
+
+            $table->string('service2_title');
+            $table->text('service2_text');
+            $table->string('service2_image');
+
+            $table->text('gallery')->nullable();
 
             $table->string('whoami_title');
             $table->text('whoami_text');

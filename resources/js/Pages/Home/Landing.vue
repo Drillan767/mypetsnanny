@@ -39,24 +39,7 @@
                         </li>
                     </ul>
                     <div class="block text-center lg:inline-block">
-                        <a
-                            href="/login"
-                            class="
-                                mx-auto
-                                lg:mx-0
-                                bg-white
-                                cursor-pointer
-                                text-gray-800
-                                font-bold
-                                rounded
-                                mt-4
-                                lg:mt-0
-                                py-2 px-4
-                                shadow
-                                bg-gradient-to-r
-                                from-teal-400
-                                to-blue-500
-                            ">
+                        <a href="/login" class="landing-button">
                             Connexion
                         </a>
                     </div>

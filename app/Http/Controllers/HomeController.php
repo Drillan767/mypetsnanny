@@ -9,6 +9,7 @@ use App\Services\ImageHandler;
 use Illuminate\Http\Request;
 use App\Models\Landing;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Spatie\Honeypot;
 use Spatie\Newsletter\Newsletter;
@@ -44,6 +45,7 @@ class HomeController extends Controller
 
     public function update (LandingRequest $request)
     {
+        dd($request);
 
         $landing = Landing::first();
 
@@ -51,6 +53,7 @@ class HomeController extends Controller
             'hero_overtitle',
             'hero_title',
             'hero_subtitle',
+            'hero_video',
             'newsletter_title',
             'newsletter_text',
             'services_data',
@@ -71,7 +74,6 @@ class HomeController extends Controller
         }
 
         $medias = [
-            'hero_video' => '',
             'hero_banner' => '1920_1080',
             'newsletter_image' => '600_300',
             'whoami_image' => '350_600',
@@ -81,7 +83,19 @@ class HomeController extends Controller
 
         foreach ($medias as $file => $format) {
             if ($request->file($file)) {
-                $landing->$field = ImageHandler::upload($request->file($file), 'landing/' . explode('_', $field)[0], $landing->id, TRUE);
+                $base_path = 'landing/' . explode('_', $file)[0];
+                Storage::disk('public')->deleteDirectory($base_path);
+                $path = $request
+                    ->file($file)
+                    ->storePubliclyAs($base_path, $request
+                        ->file($file)
+                        ->getClientOriginalName(),
+                        ['disk' => 'public']
+                    );
+                $landing->$file = "/storage/$path";
+
+
+
                 if ($file !== 'hero_video') {
 //                    $landing->$field = ImageHandler::resize($request->$field, $format);
                 }

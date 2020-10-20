@@ -45,8 +45,6 @@ class HomeController extends Controller
 
     public function update (LandingRequest $request)
     {
-        dd($request);
-
         $landing = Landing::first();
 
         $fields = [
@@ -56,7 +54,10 @@ class HomeController extends Controller
             'hero_video',
             'newsletter_title',
             'newsletter_text',
-            'services_data',
+            'service1_title',
+            'service1_text',
+            'service2_title',
+            'service2_text',
             'whoami_title',
             'whoami_text',
             'getstarted1_title',
@@ -77,7 +78,8 @@ class HomeController extends Controller
             'hero_banner' => '1920_1080',
             'newsletter_image' => '600_300',
             'whoami_image' => '350_600',
-//            'services' => '640_360',
+            'service1_image' => '640_360',
+            'service2_image' => '640_360',
             'contact_image' => '1920_1080',
         ];
 

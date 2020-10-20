@@ -60,8 +60,14 @@
 }
 
 #contact {
-    background-image: url('https://thewallpaper.co//wp-content/uploads/2017/07preview/dogs-full-hd-paws-cats-mobile-wallpapers-cat-animals-cute-apple-pet-desktop-wallpapers-best-glance-dog-humor-1920x1200.jpg');
     background-position: center;
     background-attachment: fixed;
     background-size: 100%;
+}
+
+#presentation {
+    p {
+        color: rgb(75, 85, 99);
+        margin-bottom: 2rem;
+    }
 }

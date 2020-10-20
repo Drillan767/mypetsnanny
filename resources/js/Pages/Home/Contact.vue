@@ -1,5 +1,5 @@
 <template>
-    <section id="contact" class="pb-12">
+    <section id="contact" class="pb-12" :style="'background-image: url(' + $page.landing.contact_image + ')'">
 
         <svg class="wave-top" viewBox="0 0 1439 147" xmlns="http://www.w3.org/2000/svg">
             <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -23,7 +23,7 @@
             <div class="h-1 mx-auto bg-white w-1/6 opacity-25 my-0 py-0 rounded-t"></div>
         </div>
 
-        <h3 class="my-4 text-3xl leading-tight text-center">N'hésitez pas à me contacter via ce formulaire </h3>
+        <h3 class="my-4 text-3xl leading-tight text-center">{{ $page.landing.contact_subtitle }}</h3>
 
         <div class="container mx-auto">
             <div class="flex flex-col xl:flex-row">

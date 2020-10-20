@@ -457,30 +457,38 @@ export default {
 
     mounted() {
         this.galleryPreview = JSON.parse(this.landing.gallery) || [];
-        this.landing.whoami_text = this.striptags(this.landing.whoami_text);
+        ['whoami_text', 'service1_text', 'service2_text'].forEach(text => this.landing[text] = this.striptags(this.landing[text]));
     },
 
     methods: {
         submit () {
             window.scrollTo({top: 0, behavior: 'smooth'});
 
+            ['whoami_text', 'service1_text', 'service2_text'].forEach(text => this.landing[text] = this.toParagraphs(this.landing[text]));
+
+            // If each of these fields have a file, update the attribute with it, or simply remove it because a file is expected
+            [
+                'service1_image',
+                'service2_image',
+                'hero_banner',
+                'newsletter_image',
+                'whoami_image',
+                'contact_image',
+
+            ].forEach((field) => {
+                this.$refs[field].files[0] ? this.landing[field] = this.$refs[field].files[0] : delete this.landing[field];
+            });
+
             let formData = new FormData();
-            this.landing.whoami_text = this.toParagraphs(this.landing.whoami_text);
-
-            // If each of these fields have a file, update the attribute with it, or simply remove it because a file expe
-            ['hero_banner', 'newsletter_image', 'whoami_image', 'contact_image', 'service1_image', 'service2_image'].forEach((field) => {
-                this.$refs[field].files[0] ? this.landing[field] = this.$refs[field].files[0] : delete this.landing[field]
-            })
-
             for (const [key, value] of Object.entries(this.landing)) {
                 if (key.charAt(0) !== '_' && !['processing', 'successful', 'recentlySuccessful', 'initial'].includes(key)) {
                     formData.append(key, value);
                 }
             }
 
-            this.gallery.forEach(image => formData.append('gallery[]', image.path))
+            this.gallery.forEach(image => formData.append('gallery[]', image.path));
 
-            Inertia.post('/admin/editer-accueil', formData)
+            Inertia.post('/admin/editer-accueil', formData);
         },
 
         updatePhotoPreview (e, ref, prev) {
@@ -492,10 +500,10 @@ export default {
         updateGallery (e) {
             const selectedFiles = e.target.files;
             for (let i = 0; i < selectedFiles.length; i++) {
-                this.gallery.push({index: i, path: e.target.files[i]})
+                this.gallery.push({index: i, path: e.target.files[i]});
                 const reader = new FileReader();
-                reader.onload = () => this.galleryPreview.push({index: i, path: reader.result})
-                reader.readAsDataURL(e.target.files[i])
+                reader.onload = () => this.galleryPreview.push({index: i, path: reader.result});
+                reader.readAsDataURL(e.target.files[i]);
             }
         },
 
@@ -510,15 +518,11 @@ export default {
         },
 
         toParagraphs (value) {
-            const p_list = value.split('\n').filter(p => p!== '');
-            let response = '';
-            p_list.forEach((p) => response += `<p>${p}</p>`)
-
-            return response
+            return JSON.stringify(value.split('\n').filter(p => p!== ''));
         },
 
         striptags (value) {
-        return value.replace(/<\/p>/g, "\n\n").replace(/<p>/g, "");
+            return JSON.parse(value).join("\n\n");
         }
     },
 }

@@ -3,7 +3,7 @@
 
         <div class="hero-video z-0">
 
-            <iframe class="video hidden lg:block" src="https://www.youtube-nocookie.com/embed/tkN2-Tyvk18?rel=0&amp;loop=1&amp;autoplay=1&amp;playsinline=1&amp;mute=1&amp;controls=0&amp;showinfo=0&amp;playlist=tkN2-Tyvk18"></iframe>
+            <iframe class="video hidden lg:block" :src="setYoutubeLink"></iframe>
 
             <div class="wave absolute">
                 <svg viewBox="0 0 1428 174" xmlns="http://www.w3.org/2000/svg">
@@ -24,9 +24,9 @@
         <div class="relative z-10 container px-3 mx-auto flex flex-wrap flex-col md:flex-row items-center">
             <!--Left Col-->
             <div class="animate__animated animate__fadeIn animate__delay-2s wobble flex flex-col w-full lg:w-2/5 justify-center items-start text-center lg:text-left">
-                <p class="uppercase tracking-loose w-full">What business are you?</p>
-                <h1 class="my-4 text-5xl font-bold leading-tight">Main Hero Message to sell yourself!</h1>
-                <p class="leading-normal text-2xl mb-8">Sub-hero message, not too long and not too short. Make it just right!</p>
+                <p class="uppercase tracking-loose w-full">{{ $page.landing.hero_overtitle }}</p>
+                <h1 class="my-4 text-5xl font-bold leading-tight">{{ $page.landing.hero_title }}</h1>
+                <p class="leading-normal text-2xl mb-8">{{ $page.landing.hero_subtitle }}</p>
 
                 <a href="#services" class="mx-auto lg:mx-0 cursor-pointer bg-white text-gray-800 font-bold rounded-full my-6 py-4 px-8 shadow-lg">En savoir plus</a>
 
@@ -36,5 +36,18 @@
 </template>
 
 <script>
-export default {}
+export default {
+    computed: {
+        setYoutubeLink () {
+            let url = '';
+
+            url = 'https://www.youtube-nocookie.com/embed/';
+            url += this.$page.landing.hero_video;
+            url += '?rel=0&amp;loop=1&amp;autoplay=1&amp;playsinline=1&amp;mute=1&amp;controls=0&amp;showinfo=0&amp;playlist=';
+            url += this.$page.landing.hero_video;
+
+            return url;
+        }
+    }
+}
 </script>

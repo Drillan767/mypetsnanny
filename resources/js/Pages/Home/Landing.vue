@@ -68,6 +68,9 @@
         <!-- PRICING -->
         <Pricing v-if="showPrices" />
 
+        <!-- GALLERY -->
+        <Gallery />
+
         <!-- CALL TO ACTION -->
         <Contact />
 
@@ -83,6 +86,7 @@ import Services from "./Services";
 import Whoami from "./Whoami";
 import Steps from "./Steps";
 import Pricing from "./Pricing";
+import Gallery from "./Gallery";
 import Contact from "./Contact";
 import Footer from "./Footer";
 export default {
@@ -93,6 +97,7 @@ export default {
         Whoami,
         Steps,
         Pricing,
+        Gallery,
         Contact,
         Footer
     },

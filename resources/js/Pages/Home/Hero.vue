@@ -1,9 +1,11 @@
 <template>
     <section id="accueil" class="flex py-24 h-75v">
 
-        <div class="hero-video z-0">
+        <div class="hero-banner" :style="'background-image: url(' + $page.landing.hero_banner + ')'"></div>
 
-            <iframe class="video hidden lg:block" :src="setYoutubeLink"></iframe>
+        <div class="hero-video">
+
+            <iframe class="video hidden xl:block" :src="setYoutubeLink"></iframe>
 
             <div class="wave absolute">
                 <svg viewBox="0 0 1428 174" xmlns="http://www.w3.org/2000/svg">

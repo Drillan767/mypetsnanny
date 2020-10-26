@@ -6,6 +6,7 @@ use App\Http\Requests\ContactRequest;
 use App\Http\Requests\LandingRequest;
 use App\Http\Requests\NewsletterRequest;
 use App\Services\ImageHandler;
+use App\Services\LandingImagesHandler;
 use Illuminate\Http\Request;
 use App\Models\Landing;
 use Illuminate\Support\Facades\Redirect;
@@ -47,6 +48,8 @@ class HomeController extends Controller
     {
         $landing = Landing::first();
 
+//        dd($request);
+
         $fields = [
             'hero_overtitle',
             'hero_title',
@@ -70,7 +73,6 @@ class HomeController extends Controller
         ];
 
         foreach($fields as $field) {
-            // TODO: Know if we have only 3 services or if it's dynamic.
             $landing->$field = $request->get($field);
         }
 
@@ -84,25 +86,28 @@ class HomeController extends Controller
         ];
 
         foreach ($medias as $file => $format) {
-            if ($request->file($file)) {
+            $image = $request->file($file);
+            if ($image) {
                 $base_path = 'landing/' . explode('_', $file)[0];
-                Storage::disk('public')->deleteDirectory($base_path);
-                $path = $request
-                    ->file($file)
-                    ->storePubliclyAs($base_path, $request
-                        ->file($file)
-                        ->getClientOriginalName(),
-                        ['disk' => 'public']
-                    );
-                $landing->$file = "/storage/$path";
-
-
-
-                if ($file !== 'hero_video') {
-//                    $landing->$field = ImageHandler::resize($request->$field, $format);
-                }
-
+                $landing->$file = LandingImagesHandler::upload($image, $base_path, $format, $file === 'whoami_image');
             }
+        }
+
+        if ($request->file('gallery')) {
+            $gallery = json_decode($landing->gallery);
+            $images = $request->file('gallery');
+            foreach ($images as $image) {
+                $gallery[] = LandingImagesHandler::addToGallery($image, 'landing/gallery');
+            }
+
+            $landing->gallery = json_encode($gallery);
+        }
+
+        $gallery_delete = json_decode($request->get('galleryDelete'));
+        if (!empty($gallery_delete)) {
+            $gallery = json_decode($landing->gallery);
+            $gallery = LandingImagesHandler::removeFromGallery($gallery, $gallery_delete);
+            $landing->gallery = json_encode($gallery);
         }
 
         $landing->save();

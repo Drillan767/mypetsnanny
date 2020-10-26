@@ -156,7 +156,7 @@
                                        ref="service1_image"
                                        @change="updatePhotoPreview($event, 'service1_image', 'service1Preview')">
 
-                                <jet-label for="photo" value="Image bannière" />
+                                <jet-label for="photo" value="Image du service" />
 
                                 <!-- Current Service Image -->
                                 <div class="mt-2" v-show="! service1Preview">
@@ -201,7 +201,7 @@
                                        ref="service2_image"
                                        @change="updatePhotoPreview($event, 'service2_image', 'service2Preview')">
 
-                                <jet-label for="photo" value="Image bannière" />
+                                <jet-label for="photo" value="Image du service" />
 
                                 <!-- Current Service Image -->
                                 <div class="mt-2" v-show="! service2Preview">
@@ -261,7 +261,7 @@
 
                     <!-- Current Newsletter Image -->
                     <div class="mt-2" v-show="! whoamiPreview">
-                        <img :src="landing.whoami_image" alt="Illustration de la newsletter" class="rounded h-30 w-40 object-cover">
+                        <img :src="landing.whoami_image" alt="Illustration personnelle" class="rounded h-30 w-40 object-cover">
                     </div>
 
                     <!-- New Newsletter Preview -->
@@ -451,13 +451,17 @@ export default {
             service2Preview: null,
             gallery: [],
             galleryPreview: [],
-
+            galleryDelete: [],
         }
     },
 
     mounted() {
-        this.galleryPreview = JSON.parse(this.landing.gallery) || [];
-        ['whoami_text', 'service1_text', 'service2_text'].forEach(text => this.landing[text] = this.striptags(this.landing[text]));
+        let gallery = JSON.parse(this.landing.gallery) || [];
+        gallery.forEach((image, i) => {
+            this.galleryPreview.push({index: i, path: image});
+        });
+
+        this.unserialize();
     },
 
     methods: {
@@ -479,6 +483,8 @@ export default {
                 this.$refs[field].files[0] ? this.landing[field] = this.$refs[field].files[0] : delete this.landing[field];
             });
 
+            this.landing.galleryDelete = JSON.stringify(this.galleryDelete);
+
             let formData = new FormData();
             for (const [key, value] of Object.entries(this.landing)) {
                 if (key.charAt(0) !== '_' && !['processing', 'successful', 'recentlySuccessful', 'initial'].includes(key)) {
@@ -488,7 +494,8 @@ export default {
 
             this.gallery.forEach(image => formData.append('gallery[]', image.path));
 
-            Inertia.post('/admin/editer-accueil', formData);
+            Inertia.post('/admin/editer-accueil', formData)
+                .then(() => this.unserialize());
         },
 
         updatePhotoPreview (e, ref, prev) {
@@ -509,8 +516,12 @@ export default {
 
         removeImage (e) {
             const id = parseInt(e.target.dataset.id)
+            const image = this.galleryPreview.find(i => i.index === id);
             this.gallery = this.gallery.filter(g => g.index !== id);
             this.galleryPreview = this.galleryPreview.filter(g => g.index !== id);
+            if (image.path.startsWith('/storage/')) {
+                this.galleryDelete.push(image.path);
+            }
         },
 
         selectNewFile (ref) {
@@ -521,8 +532,10 @@ export default {
             return JSON.stringify(value.split('\n').filter(p => p!== ''));
         },
 
-        striptags (value) {
-            return JSON.parse(value).join("\n\n");
+        unserialize () {
+            ['whoami_text', 'service1_text', 'service2_text'].forEach((text) => {
+                this.landing[text] = JSON.parse(this.landing[text]).join("\n\n");
+            });
         }
     },
 }

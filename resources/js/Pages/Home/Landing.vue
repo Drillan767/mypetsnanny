@@ -132,7 +132,7 @@ export default {
         window.onscroll = () => {
             let scrollPosition = document.documentElement.scrollTop || document.body.scrollTop;
             for (i in sections) {
-                if (sections[i] <= scrollPosition && i !== 'newsletter') {
+                if (sections[i] <= scrollPosition && i !== 'newsletter' && i !== 'gallery') {
                     document.querySelector('.text-black.font-bold').classList.remove('text-black', 'font-bold');
                     document.querySelector('a[href*=' + i + ']').classList.add('text-black', 'font-bold')
                 }

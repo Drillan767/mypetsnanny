@@ -43,10 +43,6 @@ export default {
         }
     },
 
-    mounted() {
-        console.log(this.$page.landing);
-    },
-
     methods: {
         newsletterSubmit () {
             this.newsletter.post('/newsletter')

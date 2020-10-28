@@ -4,6 +4,7 @@ namespace App\Services;
 
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\ImageManagerStatic as Image;
 
 class ImageHandler
 {
@@ -33,6 +34,34 @@ class ImageHandler
         $path = $file->storePubliclyAs($base_path, $file->getClientOriginalName(), ['disk' => 'public']);
 
         return '/storage/' . $path;
+    }
+
+    /**
+     * @param UploadedFile $file
+     *   The image object.
+     * @param string $path
+     *   The image's original path.
+     * @param string $size
+     *   The desired image width.
+     * @param boolean $crop
+     *   Will either crop or resize the image.
+     *
+     * @return string
+     *   Returns the image's path.
+     */
+    public static function resize (UploadedFile $file, string $path, string $size, $crop)
+    {
+        list($width, $height) = explode('_', $size);
+
+        $img = Image::make($file);
+        if ($crop) {
+            $img->crop($width, $height);
+        } else {
+            $img->resize($width, $height);
+        }
+
+        $img->save(public_path($path));
+        return $path;
     }
 
     /**

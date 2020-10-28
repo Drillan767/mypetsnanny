@@ -22,7 +22,7 @@ Route::get('/dashboard', function () {
 
 Route::get('/', [HomeController::class, 'landing']);
 Route::post('/contact', [HomeController::class, 'submit']);
-Route::post('/mentions-legales', [HomeController::class, 'privacy']);
+Route::get('/mentions-legales', [HomeController::class, 'legalNotice']);
 Route::post('/newsletter', [HomeController::class, 'subscribe']);
 
 // Routes for the administrator

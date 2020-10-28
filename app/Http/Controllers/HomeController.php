@@ -138,4 +138,12 @@ class HomeController extends Controller
         $landing->save();
         return Redirect::back()->with('success', "La page d'accueil a été mise à jour.");
     }
+
+    /**
+     * @return \Inertia\Response
+     */
+    public function legalNotice ()
+    {
+        return Inertia::render('Home/LegalNotice.vue');
+    }
 }

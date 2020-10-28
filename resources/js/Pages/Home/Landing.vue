@@ -90,6 +90,8 @@ import Gallery from "./Gallery";
 import Contact from "./Contact";
 import Footer from "./Footer";
 export default {
+    title: 'Accueil',
+
     components: {
         Newsletter,
         Hero,

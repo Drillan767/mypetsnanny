@@ -17,7 +17,7 @@
                     </p>
                 </div>
                 <div class="w-full sm:w-1/2 p-6" v-if="s === 2">
-                    <img :src="$page.landing[`service${s}_image`]" class="w-full sm:h-64 mx-auto" alt="image" />
+                    <img :src="$page.landing[`service${s}_image`]" class="w-full sm:h-64 mx-auto" :alt="`Illustration de service n°${s}`" />
                 </div>
             </div>
         </div>

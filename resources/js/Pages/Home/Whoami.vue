@@ -14,7 +14,7 @@
                     </p>
                 </div>
                 <div class="w-full sm:w-1/2 p-6">
-                    <img :src="$page.landing.whoami_image" class="w-full mx-auto" alt="image" />
+                    <img :src="$page.landing.whoami_image" class="w-full mx-auto" alt="Qui suis-je ?" />
                 </div>
             </div>
         </div>

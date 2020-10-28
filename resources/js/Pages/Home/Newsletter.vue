@@ -19,7 +19,7 @@
                     <p v-if="success" class="text-sm text-green-600 mt-2">Merci !</p>
                 </form>
                 <div class="hidden lg:block absolute inset-y-0 lg:left-2/3 xl:left-1/2 right-0 nwsltr-img">
-                    <img :src="$page.landing.newsletter_image" class="w-full h-full object-cover object-left" alt="image" />
+                    <img :src="$page.landing.newsletter_image" class="w-full h-full object-cover object-left" alt="Illustration de la newsletter" />
                 </div>
             </div>
         </div>

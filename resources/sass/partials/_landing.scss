@@ -65,7 +65,7 @@
 
 #newsletter {
     .nwsltr-img {
-        clip-path: circle(68% at 54% 50%);
+        clip-path: circle(68% at 56% 50%);
     }
 }
 
@@ -91,6 +91,17 @@
     background-position: center;
     background-attachment: fixed;
     background-size: 100%;
+
+    .notification {
+        flex: 0 0 100%;
+        padding: 1rem;
+        margin: 1.5rem 0;
+        border-left-width: 4px;
+        border-left-color: rgb(4, 108, 78);
+        background-color: rgb(222, 247, 236);
+        color: rgb(14, 159, 110);
+
+    }
 }
 
 #presentation {

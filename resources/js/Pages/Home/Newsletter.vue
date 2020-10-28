@@ -9,13 +9,14 @@
                     </p>
                     <p v-if="success">Bien ouej</p>
                     <div class="sm:flex mt-4">
-                        <JetInput type="email" class="w-full md:w-auto" v-model="newsletter.email" required="required" placeholder="Entrez votre email" />
+                        <JetInput type="email" class="w-full md:w-auto text-black" v-model="newsletter.email" required="required" placeholder="Entrez votre email" />
                         <button class="landing-button sm:ml-4" :class="{ 'opacity-25': newsletter.processing }" :disabled="newsletter.processing"
                         >
                             Inscription
                         </button>
                     </div>
-                    <jet-input-error :message="newsletter.error('email')" class="mt-2" />
+                    <jet-input-error v-if="error" :message="error" class="mt-2" />
+                    <p v-if="success" class="text-sm text-green-600 mt-2">Merci !</p>
                 </form>
                 <div class="hidden lg:block absolute inset-y-0 lg:left-2/3 xl:left-1/2 right-0 nwsltr-img">
                     <img :src="$page.landing.newsletter_image" class="w-full h-full object-cover object-left" alt="image" />
@@ -36,17 +37,30 @@ export default {
 
     data () {
         return {
-            newsletter: this.$inertia.form({
-                'email': ''
-            }),
-            success: false
+            newsletter: {
+                email: '',
+                g_recaptcha_response: ''
+            },
+            success: false,
+            error: null,
         }
     },
 
     methods: {
         newsletterSubmit () {
-            this.newsletter.post('/newsletter')
-            .then(() => this.success = true)
+            this.error = null;
+            this.$recaptcha('login').then(token => {
+                this.newsletter.g_recaptcha_response = token
+                this.$inertia.post('/newsletter', this.newsletter, {preserveScroll: true})
+                    .then(() => {
+                        if (this.$page.errors.email) {
+                            this.error = this.$page.errors.email;
+                        } else {
+                            this.success = true;
+                        }
+                    })
+            });
+
         }
     }
 }

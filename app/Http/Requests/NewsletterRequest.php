@@ -24,7 +24,8 @@ class NewsletterRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => ['required', 'email']
+            'email' => 'required|email:rfc,dns',
+            'g_recaptcha_response' => 'required|string',
         ];
     }
 }

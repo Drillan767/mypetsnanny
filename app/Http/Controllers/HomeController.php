@@ -5,32 +5,59 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ContactRequest;
 use App\Http\Requests\LandingRequest;
 use App\Http\Requests\NewsletterRequest;
-use App\Services\ImageHandler;
-use App\Services\LandingImagesHandler;
-use Illuminate\Http\Request;
 use App\Models\Landing;
+use App\Models\User;
+use App\Notifications\Contact;
+use App\Services\LandingImagesHandler;
+use App\Services\Recaptcha;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
-use Spatie\Honeypot;
-use Spatie\Newsletter\Newsletter;
+use Spatie\Newsletter\NewsletterFacade as Newsletter;
 
 class HomeController extends Controller
 {
     public function landing ()
     {
 
-        return Inertia::render('Home/Landing', ['landing' => Landing::first()]);
+        return Inertia::render('Home/Landing',
+            [
+                'landing' => Landing::first(),
+                'recaptcha_key' => env('RECAPTCHA_PUBLIC'),
+            ]);
     }
 
     public function submit (ContactRequest $request)
     {
-        // Sends an email to Aleks
+        if (Recaptcha::validate($request->get('g_recaptcha_response')) !== TRUE) {
+            return redirect()->back()->with('error', "Le recaptcha n'est pas valide");
+        }
+
+        $contact = [];
+        $fields = ['email', 'first_name', 'last_name', 'subject', 'message'];
+        foreach ($fields as $field) {
+            $contact[$field] = $request->get($field);
+        }
+
+        dispatch(function () use ($contact) {
+            Notification::route('mail', User::first()->email)->notify(new Contact($contact));
+        })->afterResponse();
+
+        return \redirect()->back()->with('success', "Merci pour votre message, nous vous recontacterons très vite !");
     }
 
+    /**
+     * @param NewsletterRequest $request
+     *   The hash returned by the recaptcha
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function subscribe (NewsletterRequest $request)
     {
-        (new Newsletter)->subscribe($request->get('email'));
+        if (Recaptcha::validate($request->get('g_recaptcha_response')) !== TRUE) {
+            return redirect()->back()->with('error', "Le recaptcha n'est pas valide");
+        }
+
+        Newsletter::subscribe($request->get('email'));
         return Redirect::back()->with('success', 'Merci !');
     }
 
@@ -47,8 +74,6 @@ class HomeController extends Controller
     public function update (LandingRequest $request)
     {
         $landing = Landing::first();
-
-//        dd($request);
 
         $fields = [
             'hero_overtitle',

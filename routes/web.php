@@ -21,8 +21,9 @@ Route::get('/dashboard', function () {
 });
 
 Route::get('/', [HomeController::class, 'landing']);
-Route::post('/', [HomeController::class, 'submit']);
+Route::post('/contact', [HomeController::class, 'submit']);
 Route::post('/mentions-legales', [HomeController::class, 'privacy']);
+Route::post('/newsletter', [HomeController::class, 'subscribe']);
 
 // Routes for the administrator
 Route::middleware(['auth:sanctum', 'sanctum.role:administrator'])->prefix('/admin')->group(function () {

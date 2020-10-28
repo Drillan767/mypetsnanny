@@ -25,42 +25,48 @@
 
         <h3 class="my-4 text-3xl leading-tight text-center">{{ $page.landing.contact_subtitle }}</h3>
 
-        <div class="container mx-auto">
-            <div class="flex flex-col xl:flex-row">
-                <div class="flex-1 mx-4 xl:mx-0">
-                    <div class="mt-2">
-                        <JetInput v-model="contact.email" class="w-full" type="email" placeholder="Adresse email*" required />
-                        <jet-input-error :message="contact.error('email')" class="mt-2" />
+        <form @submit.prevent="contactSubmit">
+            <div class="container mx-auto">
+                <div class="flex flex-wrap flex-col xl:flex-row">
+                    <div class="notification" role="alert" v-if="$page.flash.success">
+                        <span>{{ $page.flash.success }}</span>
                     </div>
-                    <div class="mt-2 flex flex-col lg:flex-row">
-                        <div class="lg:flex-1">
-                            <JetInput v-model="contact.first_name" class="w-full" placeholder="Prénom*" required />
-                            <jet-input-error :message="contact.error('first_name')" class="mt-2" />
+                    <div class="flex-1 mx-4 xl:mx-0">
+                        <div class="mt-2">
+                            <JetInput v-model="contact.email" class="w-full text-gray-700" type="email" placeholder="Adresse email*" required />
+                            <jet-input-error :message="contact.error('email')" class="mt-2" />
                         </div>
-                        <div class="lg:flex-1 mt-2 lg:mt-0 lg:ml-2">
-                            <JetInput v-model="contact.last_name" class="w-full" placeholder="Nom de famille*" required />
-                            <jet-input-error :message="contact.error('last_name')" class="mt-2" />
+                        <div class="mt-2 flex flex-col lg:flex-row">
+                            <div class="lg:flex-1">
+                                <JetInput v-model="contact.first_name" class="w-full text-gray-700" placeholder="Prénom*" required />
+                                <jet-input-error :message="contact.error('first_name')" class="mt-2" />
+                            </div>
+                            <div class="lg:flex-1 mt-2 lg:mt-0 lg:ml-2">
+                                <JetInput v-model="contact.last_name" class="w-full text-gray-700" placeholder="Nom de famille*" required />
+                                <jet-input-error :message="contact.error('last_name')" class="mt-2" />
+                            </div>
                         </div>
-                    </div>
-                    <div class="mt-2">
-                        <select v-model="contact.subject" class="block appearance-none w-full text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" required>
-                            <option value="">Selectionnez un sujet...</option>
-                            <option v-for="(option, i) in subjects" :value="option" :key="i">{{ option }}</option>
-                        </select>
+                        <div class="mt-2">
+                            <!--<select v-model="contact.subject" class="block appearance-none w-full text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" required>
+                                <option value="">Selectionnez un sujet...</option>
+                                <option v-for="(option, i) in subjects" :value="option" :key="i">{{ option }}</option>
+                            </select>-->
+                            <JetInput v-model="contact.subject" class="w-full text-gray-700" placeholder="Objet*" required />
 
-                        <jet-input-error :message="contact.error('email')" class="mt-2" />
+                            <jet-input-error :message="contact.error('subject')" class="mt-2" />
+                        </div>
                     </div>
-                </div>
-                <div class="mx-4 flex-1 mt-1">
-                    <jet-textarea v-model="contact.message" placeholder="Écrivez votre message..." class="mt-1" />
+                    <div class="ml-4 flex-1 mt-1">
+                        <jet-textarea v-model="contact.message" placeholder="Écrivez votre message..." class="mt-1 text-gray-700" />
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="text-center mt-4">
-            <button class="landing-button" :class="{ 'opacity-25': contact.processing }" :disabled="contact.processing">
-                Inscription
-            </button>
-        </div>
+            <div class="text-center mt-4">
+                <button class="landing-button" :class="{ 'opacity-25': contact.processing }" :disabled="contact.processing">
+                    Envoyer
+                </button>
+            </div>
+        </form>
     </section>
 </template>
 
@@ -82,14 +88,13 @@ export default {
     data () {
         return {
             contact: this.$inertia.form({
+                g_recaptcha_response: '',
                 first_name: '',
                 last_name: '',
                 email: '',
                 subject: '',
                 message: '',
-                honey_pot: '',
             }),
-
             subjects: [
                 'Option 1',
                 'Option 2',
@@ -100,7 +105,11 @@ export default {
 
     methods: {
         contactSubmit () {
-
+            this.success = false;
+            this.$recaptcha('login').then(token => {
+                this.contact.g_recaptcha_response = token;
+                this.contact.post('/contact', {preserveScroll: true})
+            })
         }
     }
 }

@@ -4,19 +4,20 @@ import Vue from 'vue';
 
 import { InertiaApp } from '@inertiajs/inertia-vue';
 import { InertiaForm } from 'laravel-jetstream';
-import PortalVue from 'portal-vue';
+import { VueReCaptcha } from "vue-recaptcha-v3";
+
+const app = document.getElementById('app');
+const initialValues = JSON.parse(app.dataset.page);
 
 Vue.use(InertiaApp);
 Vue.use(InertiaForm);
-Vue.use(PortalVue);
-
-const app = document.getElementById('app');
+Vue.use(VueReCaptcha, { siteKey: initialValues.props.recaptcha_key });
 
 new Vue({
     render: (h) =>
         h(InertiaApp, {
             props: {
-                initialPage: JSON.parse(app.dataset.page),
+                initialPage: initialValues,
                 resolveComponent: (name) => require(`./Pages/${name}`).default,
             },
         }),

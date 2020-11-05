@@ -1,5 +1,7 @@
 {
   "extends": [
     "config:base"
-  ]
+  ],
+  "requiredStatusChecks": null,
+  "automergeType": "branch"
 }

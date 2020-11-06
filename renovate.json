@@ -1,7 +1,11 @@
 {
-  "extends": [
-    "config:base"
-  ],
-  "requiredStatusChecks": null,
-  "automergeType": "branch"
+    "extends": [
+        "config:base"
+    ],
+    "schedule": ["every weekend"],
+    "automerge": true,
+    "automergeType": "branch",
+    "major": {
+        "automerge": false
+    }
 }

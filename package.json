@@ -39,7 +39,7 @@
         "leaflet": "1.7.1",
         "luxon": "1.25.0",
         "vue-color": "2.7.1",
-        "vue-cool-lightbox": "2.6.4",
+        "vue-cool-lightbox": "2.6.8",
         "vue-datetime": "1.0.0-beta.14",
         "vue-good-table": "2.21.1",
         "vue-meta": "2.4.0",

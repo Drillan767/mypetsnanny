@@ -35,7 +35,7 @@
         "@fullcalendar/timegrid": "5.4.0",
         "@fullcalendar/vue": "5.4.0",
         "animate.css": "4.1.1",
-        "dayjs": "1.9.4",
+        "dayjs": "1.9.6",
         "leaflet": "1.7.1",
         "luxon": "1.25.0",
         "vue-color": "2.7.1",

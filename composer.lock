@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "49e6e18afd3d6ac9c8e5f7ae00134ca2",
+    "content-hash": "549d5b49c00cb7d74d0101cb3741316c",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1686,16 +1686,16 @@
         },
         {
             "name": "laravel/jetstream",
-            "version": "v1.5.2",
+            "version": "v1.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/jetstream.git",
-                "reference": "770ece0dae5e8f30c9948aec944b5e70b9e365e3"
+                "reference": "0cf69f7a5fba96f161e8abeaa4bfcc3e95c490a6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/jetstream/zipball/770ece0dae5e8f30c9948aec944b5e70b9e365e3",
-                "reference": "770ece0dae5e8f30c9948aec944b5e70b9e365e3",
+                "url": "https://api.github.com/repos/laravel/jetstream/zipball/0cf69f7a5fba96f161e8abeaa4bfcc3e95c490a6",
+                "reference": "0cf69f7a5fba96f161e8abeaa4bfcc3e95c490a6",
                 "shasum": ""
             },
             "require": {
@@ -1703,7 +1703,7 @@
                 "illuminate/support": "^8.0",
                 "jenssegers/agent": "^2.6",
                 "laravel/fortify": "^1.0",
-                "php": "^7.3"
+                "php": "^7.3|^8.0"
             },
             "require-dev": {
                 "inertiajs/inertia-laravel": "^0.2.4",
@@ -1748,7 +1748,7 @@
                 "issues": "https://github.com/laravel/jetstream/issues",
                 "source": "https://github.com/laravel/jetstream"
             },
-            "time": "2020-10-27T13:29:45+00:00"
+            "time": "2020-11-03T18:52:00+00:00"
         },
         {
             "name": "laravel/sanctum",

@@ -16,7 +16,7 @@
         "inertiajs/inertia-laravel": "0.2.15",
         "intervention/image": "2.5.1",
         "laravel/cashier": "12.4.2",
-        "laravel/framework": "8.14.0",
+        "laravel/framework": "8.15.0",
         "laravel/jetstream": "1.6.0",
         "laravel/sanctum": "2.7.0",
         "laravel/tinker": "2.4.2",

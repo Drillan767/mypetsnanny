@@ -17,7 +17,7 @@
         "intervention/image": "2.5.1",
         "laravel/cashier": "12.6.0",
         "laravel/framework": "8.16.1",
-        "laravel/jetstream": "1.6.1",
+        "laravel/jetstream": "1.6.2",
         "laravel/sanctum": "2.8.1",
         "laravel/tinker": "2.4.2",
         "spatie/laravel-newsletter": "4.8.2"

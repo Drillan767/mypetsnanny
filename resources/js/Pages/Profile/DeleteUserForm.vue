@@ -1,11 +1,11 @@
 <template>
     <jet-action-section>
         <template #title>
-            Delete Account
+            Supprimer votre compte
         </template>
 
         <template #description>
-            Permanently delete your account.
+            Supprimer votre compte de façon permanente.
         </template>
 
         <template #content>

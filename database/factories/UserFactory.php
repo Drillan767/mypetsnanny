@@ -28,7 +28,7 @@ class UserFactory extends Factory
             'role' => 'administrator',
             'email' => $this->faker->unique()->safeEmail,
             'email_verified_at' => now(),
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'password' => '$2y$10$4Wa8Y7zkHRhg6j5Fb5ywb.iXLLQAZzDpttRc5sdpAnQXrYoUnMIb6', // password
             'use_same_address' => TRUE,
             'address_1' => $this->faker->streetAddress,
             'address_2' => '',

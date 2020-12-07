@@ -11,7 +11,7 @@
     },
     "devDependencies": {
         "@inertiajs/inertia": "0.7.0",
-        "@inertiajs/inertia-vue": "0.4.2",
+        "@inertiajs/inertia-vue": "0.4.3",
         "@tailwindcss/custom-forms": "0.2.1",
         "@tailwindcss/ui": "0.1.4",
         "axios": "0.19.2",

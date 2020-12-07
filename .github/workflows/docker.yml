@@ -9,6 +9,14 @@ on:
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log level'
+        required: true
+        default: 'warning'
+      tags:
+        required: false
+        description: 'Test scenario tags'
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -22,17 +30,14 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-      - name: docker login
-        env:
-          DOCKER_USER: ${{ secrets.DOCKER_USER }}
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-        run: |
-          - echo "$DOCKER_PASSWORD" | docker login registry.gitlab.com -u $DOCKER_USER --password-stdin
+      - uses: docker/login-action@v1.6.0
+        with: # Set the secret as an input
+          username: ${{ secrets.DOCKER_USER }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: docker build
         run: |
-          docker build -t drillan767/mypetsnanny:1.0.0
-
+          docker build -t drillan767/mypetsnanny:1.0.0 .
       - name: docker push
-        run |
+        run: |
           docker push drillan767/mypetsnanny:1.0.0

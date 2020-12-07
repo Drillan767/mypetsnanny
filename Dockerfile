@@ -17,7 +17,7 @@ RUN docker-php-ext-install mbstring
 RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -
 RUN apt-get update && apt-get install -y nodejs
 
-RUN docker-php-ext-install mysqli pdo pdo_mysql json
+RUN docker-php-ext-install mysqli pdo pdo_mysql
 
 RUN docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/
 RUN docker-php-ext-install -j$(nproc) gd

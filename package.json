@@ -14,7 +14,7 @@
         "@inertiajs/inertia-vue": "0.5.0",
         "@tailwindcss/custom-forms": "0.2.1",
         "@tailwindcss/ui": "0.1.4",
-        "axios": "0.19.2",
+        "axios": "0.21.1",
         "cross-env": "7.0.3",
         "laravel-jetstream": "1.2.0",
         "laravel-mix": "5.0.7",

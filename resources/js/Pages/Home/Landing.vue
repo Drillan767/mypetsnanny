@@ -53,20 +53,20 @@
         <!-- HERO -->
         <Hero />
 
-        <!-- NEWSLETTER -->
-        <Newsletter />
+        <!-- WHOAMI -->
+        <Whoami />
 
         <!-- SERVICES -->
         <Services />
 
-        <!-- WHOAMI -->
-        <Whoami />
+        <!-- NEWSLETTER -->
+        <Newsletter />
 
         <!-- GETTING STARTED -->
         <Steps />
 
         <!-- PRICING -->
-        <Pricing v-if="showPrices" />
+        <!-- <Pricing v-if="showPrices" /> -->
 
         <!-- GALLERY -->
         <Gallery />

@@ -7,19 +7,22 @@ import { InertiaForm } from 'laravel-jetstream';
 import { VueReCaptcha } from "vue-recaptcha-v3";
 
 const app = document.getElementById('app');
-const initialValues = JSON.parse(app.dataset.page);
 
-Vue.mixin(titleMixin);
-Vue.use(InertiaApp);
-Vue.use(InertiaForm);
-Vue.use(VueReCaptcha, { siteKey: initialValues.props.recaptcha_key });
+if (app) {
+    const initialValues = JSON.parse(app.dataset.page);
 
-new Vue({
-    render: (h) =>
-        h(InertiaApp, {
-            props: {
-                initialPage: initialValues,
-                resolveComponent: (name) => require(`./Pages/${name}`).default,
-            },
-        }),
-}).$mount(app);
+    Vue.mixin(titleMixin);
+    Vue.use(InertiaApp);
+    Vue.use(InertiaForm);
+    Vue.use(VueReCaptcha, { siteKey: initialValues.props.recaptcha_key });
+
+    new Vue({
+        render: (h) =>
+            h(InertiaApp, {
+                props: {
+                    initialPage: initialValues,
+                    resolveComponent: (name) => require(`./Pages/${name}`).default,
+                },
+            }),
+    }).$mount(app);
+}

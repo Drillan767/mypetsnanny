@@ -73,51 +73,51 @@
 
         <jet-section>
             <template #title>
-                Newsletter
+                Qui suis-je ?
             </template>
 
             <template #description>
-                Personnalisez les petits détails autour du formulaire.
+                Présentez-vous comme bon vous semble
             </template>
 
             <template #fields>
                 <div class="col-span-6 sm:col-span-4">
-                    <jet-label for="newsletter_title" value="Titre" />
-                    <jet-input id="newsletter_title" type="text" class="mt-1 block w-full" v-model="landing.newsletter_title" autocomplete="newsletter_title" />
-                    <jet-input-error :message="landing.error('newsletter_title')" class="mt-2" />
+                    <jet-label for="whoami_title" value="Titre" />
+                    <jet-input id="whoami_title" type="text" class="mt-1 block w-full" v-model="landing.whoami_title" autocomplete="whoami_title" />
+                    <jet-input-error :message="landing.error('whoami_title')" class="mt-2" />
                 </div>
 
                 <div class="col-span-6 sm:col-span-4">
-                    <jet-label for="newsletter_text" value="Texte" />
-                    <jet-input id="newsletter_text" type="text" class="mt-1 block w-full" v-model="landing.newsletter_text" autocomplete="newsletter_text" />
-                    <jet-input-error :message="landing.error('newsletter_text')" class="mt-2" />
+                    <jet-label for="whoami_text" value="Description" />
+                    <jet-textarea id="whoami_text" v-model="landing.whoami_text" />
+                    <jet-input-error :message="landing.error('whoami_text')" class="mt-2" />
                 </div>
 
                 <div class="col-span-6 sm:col-span-4">
                     <!-- Profile Newsletter File Input -->
                     <input type="file" class="hidden"
-                           ref="newsletter_image"
-                           @change="updatePhotoPreview($event, 'newsletter_image', 'newsletterPreview')">
+                           ref="whoami_image"
+                           @change="updatePhotoPreview($event, 'whoami_image', 'whoamiPreview')">
 
-                    <jet-label for="photo" value="Image de fond de la partie Newsletter" />
+                    <jet-label for="photo" value="Image de présentation" />
 
                     <!-- Current Newsletter Image -->
-                    <div class="mt-2" v-show="! newsletterPreview">
-                        <img :src="landing.newsletter_image" alt="Image actuelle pour la newsletter" class="rounded h-30 w-40 object-cover">
+                    <div class="mt-2" v-show="! whoamiPreview">
+                        <img :src="landing.whoami_image" alt="Illustration personnelle" class="rounded h-30 w-40 object-cover">
                     </div>
 
                     <!-- New Newsletter Preview -->
-                    <div class="mt-2" v-show="newsletterPreview">
-                    <span class="block rounded w-40 h-20"
-                          :style="'background-size: cover; background-repeat: no-repeat; background-position: center center; background-image: url(\'' + newsletterPreview + '\');'">
+                    <div class="mt-2" v-show="whoamiPreview">
+                    <span class="block rounded w-20 h-40"
+                          :style="'background-size: cover; background-repeat: no-repeat; background-position: center center; background-image: url(\'' + whoamiPreview + '\');'">
                     </span>
                     </div>
 
-                    <jet-secondary-button class="mt-2" type="button" @click.native.prevent="selectNewFile('newsletter_image')">
+                    <jet-secondary-button class="mt-2" type="button" @click.native.prevent="selectNewFile('whoami_image')">
                         Sélectionnez une nouvelle image
                     </jet-secondary-button>
 
-                    <jet-input-error :message="landing.error('newsletter_image')" class="mt-2" />
+                    <jet-input-error :message="landing.error('whoami_image')" class="mt-2" />
                 </div>
             </template>
         </jet-section>
@@ -231,51 +231,51 @@
 
         <jet-section>
             <template #title>
-                Qui suis-je ?
+                Newsletter
             </template>
 
             <template #description>
-                Présentez-vous comme bon vous semble
+                Personnalisez les petits détails autour du formulaire.
             </template>
 
             <template #fields>
                 <div class="col-span-6 sm:col-span-4">
-                    <jet-label for="whoami_title" value="Titre" />
-                    <jet-input id="whoami_title" type="text" class="mt-1 block w-full" v-model="landing.whoami_title" autocomplete="whoami_title" />
-                    <jet-input-error :message="landing.error('whoami_title')" class="mt-2" />
+                    <jet-label for="newsletter_title" value="Titre" />
+                    <jet-input id="newsletter_title" type="text" class="mt-1 block w-full" v-model="landing.newsletter_title" autocomplete="newsletter_title" />
+                    <jet-input-error :message="landing.error('newsletter_title')" class="mt-2" />
                 </div>
 
                 <div class="col-span-6 sm:col-span-4">
-                    <jet-label for="whoami_text" value="Description" />
-                    <jet-textarea id="whoami_text" v-model="landing.whoami_text" />
-                    <jet-input-error :message="landing.error('whoami_text')" class="mt-2" />
+                    <jet-label for="newsletter_text" value="Texte" />
+                    <jet-input id="newsletter_text" type="text" class="mt-1 block w-full" v-model="landing.newsletter_text" autocomplete="newsletter_text" />
+                    <jet-input-error :message="landing.error('newsletter_text')" class="mt-2" />
                 </div>
 
                 <div class="col-span-6 sm:col-span-4">
                     <!-- Profile Newsletter File Input -->
                     <input type="file" class="hidden"
-                           ref="whoami_image"
-                           @change="updatePhotoPreview($event, 'whoami_image', 'whoamiPreview')">
+                           ref="newsletter_image"
+                           @change="updatePhotoPreview($event, 'newsletter_image', 'newsletterPreview')">
 
-                    <jet-label for="photo" value="Image de présentation" />
+                    <jet-label for="photo" value="Image de fond de la partie Newsletter" />
 
                     <!-- Current Newsletter Image -->
-                    <div class="mt-2" v-show="! whoamiPreview">
-                        <img :src="landing.whoami_image" alt="Illustration personnelle" class="rounded h-30 w-40 object-cover">
+                    <div class="mt-2" v-show="! newsletterPreview">
+                        <img :src="landing.newsletter_image" alt="Image actuelle pour la newsletter" class="rounded h-30 w-40 object-cover">
                     </div>
 
                     <!-- New Newsletter Preview -->
-                    <div class="mt-2" v-show="whoamiPreview">
-                    <span class="block rounded w-20 h-40"
-                          :style="'background-size: cover; background-repeat: no-repeat; background-position: center center; background-image: url(\'' + whoamiPreview + '\');'">
+                    <div class="mt-2" v-show="newsletterPreview">
+                    <span class="block rounded w-40 h-20"
+                          :style="'background-size: cover; background-repeat: no-repeat; background-position: center center; background-image: url(\'' + newsletterPreview + '\');'">
                     </span>
                     </div>
 
-                    <jet-secondary-button class="mt-2" type="button" @click.native.prevent="selectNewFile('whoami_image')">
+                    <jet-secondary-button class="mt-2" type="button" @click.native.prevent="selectNewFile('newsletter_image')">
                         Sélectionnez une nouvelle image
                     </jet-secondary-button>
 
-                    <jet-input-error :message="landing.error('whoami_image')" class="mt-2" />
+                    <jet-input-error :message="landing.error('newsletter_image')" class="mt-2" />
                 </div>
             </template>
         </jet-section>
@@ -456,7 +456,7 @@ export default {
     },
 
     mounted() {
-        let gallery = JSON.parse(this.landing.gallery) || [];
+        let gallery = this.landing.gallery ? JSON.parse(this.landing.gallery) : [];
         gallery.forEach((image, i) => {
             this.galleryPreview.push({index: i, path: image});
         });

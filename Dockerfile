@@ -1,4 +1,4 @@
-FROM php:latest
+FROM php:7.4-fpm
 
 RUN apt-get update -y && apt-get install -y \
     curl \

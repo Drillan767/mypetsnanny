@@ -45,7 +45,7 @@
                                             <span v-if="props.row.category.whole_day || props.row.walk_category === 'rando'">
                                                 {{ readableDate(props.row.beginning) }}
                                             </span>
-                                                                        <span v-else>
+                                            <span v-else>
                                                 {{ readableDate2(props.row.beginning, props.row.ending) }}
                                             </span>
                                         </div>

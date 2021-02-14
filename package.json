@@ -37,7 +37,7 @@
         "animate.css": "4.1.1",
         "dayjs": "1.10.4",
         "leaflet": "1.7.1",
-        "luxon": "1.25.0",
+        "luxon": "1.26.0",
         "vue-color": "2.8.1",
         "vue-cool-lightbox": "2.7.1",
         "vue-datetime": "1.0.0-beta.14",

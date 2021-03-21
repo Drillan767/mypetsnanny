@@ -13,7 +13,7 @@
         "fideloper/proxy": "4.4.1",
         "fruitcake/laravel-cors": "2.0.3",
         "guzzlehttp/guzzle": "7.2.0",
-        "inertiajs/inertia-laravel": "0.2.15",
+        "inertiajs/inertia-laravel": "0.4.0",
         "intervention/image": "2.5.1",
         "laravel/cashier": "12.6.0",
         "laravel/framework": "8.16.1",

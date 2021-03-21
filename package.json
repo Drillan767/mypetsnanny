@@ -47,6 +47,6 @@
         "vue-recaptcha-v3": "2.0.0",
         "vue-silentbox": "2.4.3",
         "vue2-leaflet": "2.6.0",
-        "weekstart": "1.0.1"
+        "weekstart": "1.1.0"
     }
 }
